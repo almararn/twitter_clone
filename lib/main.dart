@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:twitter_clone/screens/home.dart';
 
 void main() {
@@ -13,7 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+          fontFamily: GoogleFonts.ubuntu().fontFamily,
+          brightness: Brightness.dark),
       home: const HomePage(),
       debugShowCheckedModeBanner: false, // fix later
     );
