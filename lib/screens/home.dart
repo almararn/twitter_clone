@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/widgets/home_widget.dart';
+import 'package:twitter_clone/widgets/middle_widget.dart';
 import '../widgets/navigation.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +17,11 @@ class _HomePageState extends State<HomePage> {
         children: [
           const NavigationLeft(),
           const Expanded(
+            flex: 3,
             child: HomeWidget(),
           ),
           Expanded(
+            flex: 1,
             child: Column(),
           ),
         ],

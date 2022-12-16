@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:twitter_clone/widgets/tweet_compose.dart';
+import 'package:twitter_clone/widgets/tweets_container.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -12,12 +12,17 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        SizedBox(height: 30),
-        TweetCompose(),
-      ],
+    return SingleChildScrollView(
+      physics: const ScrollPhysics(),
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            TweetCompose(),
+            TweetsContainer(),
+          ],
+        ),
+      ),
     );
   }
 }
