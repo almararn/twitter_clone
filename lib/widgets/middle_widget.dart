@@ -15,8 +15,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
       child: SizedBox(
+        height: MediaQuery.of(context).size.height,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: const [
             TweetCompose(),
             TweetsContainer(),
