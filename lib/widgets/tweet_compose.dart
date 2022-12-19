@@ -1,16 +1,46 @@
 import 'package:flutter/material.dart';
+import '../services/api_service.dart';
 
 class TweetCompose extends StatefulWidget {
-  const TweetCompose({super.key});
+  final VoidCallback voidCallback;
+  const TweetCompose({super.key, required this.voidCallback});
 
   @override
   State<TweetCompose> createState() => _TweetComposeState();
 }
 
 class _TweetComposeState extends State<TweetCompose> {
+  final _textInput = TextEditingController();
+  bool isLoading = false;
+
+  sendData() async {
+    setState(() {
+      isLoading = true;
+    });
+    var tweets = {
+      'text': _textInput.text,
+      'comment': '0',
+      'retweet': '0',
+    };
+    if (_textInput.text.isNotEmpty) {
+      await PostTweets().postTweets(tweets);
+      _textInput.clear();
+      widget.voidCallback();
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _textInput.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    double respWidth = MediaQuery.of(context).size.width * 0.4 - 100;
+    double respWidth = MediaQuery.of(context).size.width * 0.3 - 100;
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -69,6 +99,7 @@ class _TweetComposeState extends State<TweetCompose> {
                         SizedBox(
                           width: respWidth,
                           child: TextField(
+                            controller: _textInput,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration(
@@ -111,19 +142,37 @@ class _TweetComposeState extends State<TweetCompose> {
                     const SizedBox(
                       height: 50,
                     ),
-                    Container(
-                      height: 40,
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        color: Colors.blue,
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Tweet',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
+                    GestureDetector(
+                      onTap: sendData,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              color: Colors.blue,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Tweet',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: isLoading,
+                            child: const Padding(
+                              padding: EdgeInsets.only(top: 32, left: 10),
+                              child: SizedBox(
+                                  height: 3,
+                                  width: 80,
+                                  child: LinearProgressIndicator()),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
