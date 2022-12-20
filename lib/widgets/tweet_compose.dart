@@ -14,20 +14,22 @@ class _TweetComposeState extends State<TweetCompose> {
   bool isLoading = false;
 
   sendData() async {
-    setState(() {
-      isLoading = true;
-    });
     var tweets = {
       'text': _textInput.text,
       'comment': '0',
       'retweet': '0',
     };
     if (_textInput.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
       await PostTweets().postTweets(tweets);
       _textInput.clear();
-      widget.voidCallback();
-      setState(() {
-        isLoading = false;
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        widget.voidCallback();
+        setState(() {
+          isLoading = false;
+        });
       });
     }
   }
@@ -58,26 +60,31 @@ class _TweetComposeState extends State<TweetCompose> {
           ),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text(
               'Home',
               style: TextStyle(
                   color: Theme.of(context).primaryColorLight,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
                   children: [
@@ -139,48 +146,50 @@ class _TweetComposeState extends State<TweetCompose> {
                 ),
                 Column(
                   children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
                     GestureDetector(
                       onTap: sendData,
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              color: Colors.blue,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Tweet',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                            ),
+                      child: Container(
+                        height: 40,
+                        width: 100,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          color: Colors.blue,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Tweet',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          Visibility(
-                            visible: isLoading,
-                            child: const Padding(
-                              padding: EdgeInsets.only(top: 32, left: 10),
-                              child: SizedBox(
-                                  height: 3,
-                                  width: 80,
-                                  child: LinearProgressIndicator()),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Stack(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Visibility(
+                    visible: isLoading,
+                    child: const LinearProgressIndicator(
+                      minHeight: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

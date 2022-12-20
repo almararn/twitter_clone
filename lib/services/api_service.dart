@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../models/tweet.dart';
 import '../models/tweets.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,22 @@ class FetchTweets {
       return tweetsFromJson(jsonString);
     } else {
       return null;
+    }
+  }
+}
+
+class FetchSingleTweet {
+  Future<Tweet> getSingleTweet(i) async {
+    var client = http.Client();
+    var uri = Uri.parse('http://192.168.1.213:5291/api/tweet/${i + 1}');
+    var response = await client.get(uri);
+    print('Fetched API: #$i');
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return singleTweet(jsonString);
+    } else {
+      return response.statusCode as Tweet;
     }
   }
 }
