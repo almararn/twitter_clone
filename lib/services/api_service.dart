@@ -8,6 +8,7 @@ class FetchTweets {
     var client = http.Client();
     var uri = Uri.parse('http://192.168.1.213:5291/api/tweets');
     var response = await client.get(uri);
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       return tweetsFromJson(jsonString);

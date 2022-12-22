@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class RightPanel extends StatelessWidget {
   const RightPanel({super.key});
@@ -14,7 +12,7 @@ class RightPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 30,
+              height: 25,
             ),
             Container(
               decoration: BoxDecoration(
@@ -45,7 +43,7 @@ class RightPanel extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 25,
             ),
             Container(
               decoration: BoxDecoration(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:twitter_clone/widgets/tweet_compose.dart';
 import '../models/tweets.dart';
 import '../services/api_service.dart';
@@ -31,6 +32,31 @@ class _TweetsContainerState extends State<TweetsContainer> {
       setState(() {
         isLoaded = true;
       });
+    }
+  }
+
+  String showTime(int index) {
+    final time =
+        DateFormat('dd MMM').format(tweets![index].timestamp as DateTime);
+    final currentTime = DateFormat('dd MMM').format(DateTime.now());
+    if (time != currentTime) {
+      return time;
+    } else {
+      final time =
+          DateFormat('HH').format(tweets![index].timestamp as DateTime);
+      final currentTime = DateFormat('HH').format(DateTime.now());
+      int? currentHour = int.tryParse(currentTime);
+      int? postedHour = int.tryParse(time);
+      if (currentHour != postedHour) {
+        return '${currentHour! - postedHour!}h';
+      } else {
+        final time =
+            DateFormat('mm').format(tweets![index].timestamp as DateTime);
+        final currentTime = DateFormat('mm').format(DateTime.now());
+        int? currentMin = int.tryParse(currentTime);
+        int? postedMin = int.tryParse(time);
+        return '${currentMin! - postedMin!}m';
+      }
     }
   }
 
@@ -104,7 +130,7 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        '5h',
+                                        showTime(index),
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .primaryColorLight,

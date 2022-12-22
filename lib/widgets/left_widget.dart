@@ -20,7 +20,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(left: 22, top: 30, bottom: 10),
+            padding: EdgeInsets.only(left: 22, top: 20, bottom: 10),
             child: Image(
               image: AssetImage('images/twitter.png'),
               height: 30,
