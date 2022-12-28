@@ -31,9 +31,10 @@ class _SingleTweetState extends State<SingleTweet> {
 
   getData() async {
     singleTweet = await FetchSingleTweet().getSingleTweet(tweetNumber);
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         isLoaded = true;
+        isLoading = false;
       });
     });
   }
@@ -42,6 +43,63 @@ class _SingleTweetState extends State<SingleTweet> {
     final time = DateFormat('HH:mm • dd MMM, yyyy')
         .format(singleTweet.timestamp as DateTime);
     return time;
+  }
+
+  deleteTweet() async {
+    await EraseTweet().deleteTweet(tweetNumber).then(
+      (value) {
+        if (value) {
+          widget.singleTweetCallback();
+        }
+      },
+    );
+  }
+
+  sendReply() async {
+    var tweets = {
+      'comment': _textInput.text,
+    };
+    setState(() {
+      isLoading = true;
+    });
+    if (_textInput.text.isNotEmpty) {
+      await PostReply().addReply(tweets, tweetNumber);
+      _textInput.clear();
+      getData();
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Delete", style: TextStyle(color: Colors.red)),
+      onPressed: () {
+        deleteTweet();
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete Tweet"),
+      content: const Text(
+          "Are you sure you want to delete this tweet?\nThis action cannot be undone."),
+      actions: [
+        continueButton,
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -203,10 +261,12 @@ class _SingleTweetState extends State<SingleTweet> {
                                   color: Theme.of(context).primaryColorLight,
                                   size: 20,
                                 ),
-                                Icon(
-                                  Icons.share,
-                                  color: Theme.of(context).primaryColorLight,
-                                  size: 20,
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  color: const Color.fromARGB(200, 244, 67, 54),
+                                  onPressed: () {
+                                    showAlertDialog(context);
+                                  },
                                 ),
                               ],
                             ),
@@ -275,7 +335,9 @@ class _SingleTweetState extends State<SingleTweet> {
                               Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      sendReply();
+                                    },
                                     child: Container(
                                       height: 40,
                                       width: 100,
@@ -298,6 +360,19 @@ class _SingleTweetState extends State<SingleTweet> {
                               ),
                             ],
                           ),
+                        ),
+                        Stack(
+                          children: [
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Visibility(
+                              visible: isLoading,
+                              child: const LinearProgressIndicator(
+                                minHeight: 2,
+                              ),
+                            ),
+                          ],
                         ),
                         ListView.builder(
                           reverse: true,

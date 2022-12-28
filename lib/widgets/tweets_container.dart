@@ -81,7 +81,8 @@ class _TweetsContainerState extends State<TweetsContainer> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.tweetsCtrCallback(index);
+                    widget
+                        .tweetsCtrCallback(tweets![index].tweetId ?? index + 1);
                   },
                   child: Container(
                     decoration: BoxDecoration(
