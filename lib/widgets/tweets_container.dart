@@ -16,9 +16,15 @@ class TweetsContainer extends StatefulWidget {
   }
 }
 
+int userId = 2;
+int likeId = 0;
+int buttonId = 0;
+
 class _TweetsContainerState extends State<TweetsContainer> {
   List<Tweets>? tweets = [];
   bool isLoaded = false;
+  bool isLoading = false;
+  int tweetId = 0;
 
   @override
   void initState() {
@@ -58,6 +64,55 @@ class _TweetsContainerState extends State<TweetsContainer> {
         return '${currentMin! - postedMin!}m';
       }
     }
+  }
+
+  void pressedLike(int index) async {
+    buttonId = index;
+    setState(() {
+      isLoading = true;
+    });
+    if (!isLiked(index)) {
+      for (int i = 0; i < tweets![index].likes!.length; i++) {
+        if (tweets![index].likes![i].userId == userId) {
+          likeId = tweets![index].likes![i].likeId!;
+        }
+      }
+      tweetId = tweets![index].tweetId!;
+      var like = {
+        'tweetId': tweetId,
+        'userId': userId,
+      };
+      await PostLike().addLike(like);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          isLoading = false;
+        });
+        getData();
+      });
+    } else {
+      for (int i = 0; i < tweets![index].likes!.length; i++) {
+        if (tweets![index].likes![i].userId == userId) {
+          likeId = tweets![index].likes![i].likeId!;
+        }
+      }
+      await PostLike().remoweLike(likeId);
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          isLoading = false;
+        });
+        getData();
+      });
+    }
+  }
+
+  bool isLiked(int index) {
+    for (int i = 0; i < tweets![index].likes!.length; i++) {
+      if (tweets![index].likes![i].userId == userId) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -171,7 +226,10 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                               size: 20,
                                             ),
                                             Text(
-                                              '0',
+                                              tweets![index]
+                                                  .comments!
+                                                  .length
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColorLight,
@@ -197,20 +255,34 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                             ),
                                           ],
                                         ),
-                                        Wrap(
-                                          spacing: 10,
+                                        Row(
                                           children: [
-                                            Icon(
-                                              Icons.favorite,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight,
-                                              size: 20,
+                                            IconButton(
+                                              onPressed: () => isLoading
+                                                  ? null
+                                                  : pressedLike(index),
+                                              icon: Icon(
+                                                Icons.favorite,
+                                                size: buttonId == index
+                                                    ? isLoading
+                                                        ? 20
+                                                        : 24
+                                                    : 24,
+                                              ),
+                                              color: isLiked(index)
+                                                  ? Colors.red
+                                                  : Theme.of(context)
+                                                      .primaryColorLight,
                                             ),
                                             Text(
-                                              '0',
+                                              tweets![index]
+                                                  .likes!
+                                                  .length
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColorLight,
+                                                height: 0.7,
                                               ),
                                             ),
                                           ],

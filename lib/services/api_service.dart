@@ -62,13 +62,36 @@ class PostTweets {
 }
 
 class PostReply {
-  Future<http.Response> addReply(dynamic object, int i) async {
-    return http.put(
-      Uri.parse('$addressAndPort/api/tweet/$i'),
+  Future<http.Response> addReply(dynamic object) async {
+    return http.post(
+      Uri.parse('$addressAndPort/api/comments'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(object),
     );
+  }
+}
+
+class PostLike {
+  Future<http.Response> addLike(dynamic object) async {
+    return http.post(
+      Uri.parse('$addressAndPort/api/likes'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(object),
+    );
+  }
+
+  Future<bool> remoweLike(i) async {
+    var client = http.Client();
+    var uri = Uri.parse('$addressAndPort/api/likes/$i');
+    var response = await client.delete(uri);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

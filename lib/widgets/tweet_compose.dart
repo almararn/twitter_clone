@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_clone/widgets/tweets_container.dart';
 import '../services/api_service.dart';
 
 class TweetCompose extends StatefulWidget {
@@ -14,11 +15,8 @@ class _TweetComposeState extends State<TweetCompose> {
   bool isLoading = false;
 
   sendData() async {
-    var tweets = {
-      'text': _textInput.text,
-      'comment': '0',
-      'retweet': '0',
-    };
+    print(userId);
+    var tweets = {'text': _textInput.text, 'userId': userId};
     if (_textInput.text.isNotEmpty) {
       setState(() {
         isLoading = true;

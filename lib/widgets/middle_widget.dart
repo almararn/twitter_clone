@@ -14,10 +14,6 @@ int tweetNumber = 0;
 class _HomeWidgetState extends State<HomeWidget> {
   int _page = 0;
 
-  final _controller = PageController(
-    viewportFraction: 0.5,
-  );
-
   late List screens = [
     TweetsContainer(tweetsCtrCallback: tweetsCallback),
     SingleTweet(singleTweetCallback: singleTweetCallback),
@@ -39,7 +35,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-        //  controller: _controller,
         itemCount: 2,
         itemBuilder: (context, position) {
           return screens[_page];

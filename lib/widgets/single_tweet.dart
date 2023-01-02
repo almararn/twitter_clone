@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/widgets/middle_widget.dart';
+import 'package:twitter_clone/widgets/tweets_container.dart';
 import '../models/tweet.dart';
 import 'package:intl/intl.dart';
 
@@ -56,17 +57,50 @@ class _SingleTweetState extends State<SingleTweet> {
   }
 
   sendReply() async {
-    var tweets = {
-      'comment': _textInput.text,
+    var comment = {
+      'text': _textInput.text,
+      'tweetId': singleTweet.tweetId,
+      'userId': userId,
     };
     setState(() {
       isLoading = true;
     });
     if (_textInput.text.isNotEmpty) {
-      await PostReply().addReply(tweets, tweetNumber);
+      await PostReply().addReply(comment);
       _textInput.clear();
       getData();
     }
+  }
+
+  sendLike() async {
+    if (!isLiked()) {
+      var like = {
+        'tweetId': singleTweet.tweetId,
+        'userId': userId,
+      };
+      setState(() {
+        isLoading = true;
+      });
+
+      await PostLike().addLike(like);
+      getData();
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      await PostLike().remoweLike(likeId);
+      getData();
+    }
+  }
+
+  bool isLiked() {
+    for (int i = 0; i < singleTweet.likes!.length; i++) {
+      if (singleTweet.likes![i].userId == userId) {
+        likeId = (singleTweet.likes![i].likeId) as int;
+        return true;
+      }
+    }
+    return false;
   }
 
   showAlertDialog(BuildContext context) {
@@ -147,12 +181,14 @@ class _SingleTweetState extends State<SingleTweet> {
                           GestureDetector(
                             onTap: widget.singleTweetCallback,
                             child: Row(
-                              children: const [
-                                Icon(Icons.arrow_back),
-                                SizedBox(
+                              children: [
+                                const Icon(Icons.arrow_back),
+                                Container(
+                                  color: Colors.transparent,
                                   width: 20,
+                                  height: 20,
                                 ),
-                                Text(
+                                const Text(
                                   'Tweet',
                                   style: TextStyle(fontSize: 20),
                                 ),
@@ -216,8 +252,8 @@ class _SingleTweetState extends State<SingleTweet> {
                                   style: DefaultTextStyle.of(context).style,
                                   children: [
                                     TextSpan(
-                                        text: singleTweet.like?.length != null
-                                            ? '${singleTweet.like?.length.toString()} '
+                                        text: singleTweet.likes?.length != null
+                                            ? '${singleTweet.likes?.length.toString()} '
                                             : '0 '),
                                     TextSpan(
                                       text: ' Likes',
@@ -256,10 +292,19 @@ class _SingleTweetState extends State<SingleTweet> {
                                   color: Theme.of(context).primaryColorLight,
                                   size: 20,
                                 ),
-                                Icon(
-                                  Icons.favorite,
-                                  color: Theme.of(context).primaryColorLight,
-                                  size: 20,
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: isLoading ? null : sendLike,
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        size: isLoading ? 20 : 24,
+                                      ),
+                                      color: isLiked()
+                                          ? Colors.red
+                                          : Theme.of(context).primaryColorLight,
+                                    ),
+                                  ],
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete),
@@ -379,8 +424,7 @@ class _SingleTweetState extends State<SingleTweet> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
-                          //  itemCount: singleTweet.comment?.length,
-                          itemCount: 1,
+                          itemCount: singleTweet.comments?.length,
                           itemBuilder: (context, index) {
                             return Container(
                               decoration: BoxDecoration(
@@ -448,7 +492,9 @@ class _SingleTweetState extends State<SingleTweet> {
                                             SizedBox(
                                               width: respWidth,
                                               child: Text(
-                                                singleTweet.comment.toString(),
+                                                singleTweet
+                                                    .comments![index].text
+                                                    .toString(),
                                                 style: TextStyle(
                                                   color: Theme.of(context)
                                                       .primaryColorLight,
