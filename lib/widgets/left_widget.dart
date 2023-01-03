@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:twitter_clone/models/users.dart';
+import 'package:twitter_clone/services/api_service.dart';
+import 'package:twitter_clone/widgets/tweets_container.dart';
 
 class NavigationLeft extends StatefulWidget {
   const NavigationLeft({
@@ -12,6 +15,24 @@ class NavigationLeft extends StatefulWidget {
 
 class _NavigationLeftState extends State<NavigationLeft> {
   int _selectedIndex = 0;
+  List<Users>? user = [];
+  bool isLoaded = false;
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    user = await FetchUsers().getAllUsers();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        isLoaded = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -95,7 +116,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
               ),
             ),
           ),
-          Padding(
+/*           Padding(
             padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
             child: Container(
               height: 50,
@@ -110,40 +131,57 @@ class _NavigationLeftState extends State<NavigationLeft> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               )),
             ),
-          ),
+          ), */
           SizedBox(
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 18, bottom: 10, right: 10, top: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Full User Name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+              child: isLoaded
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          child: Icon(Icons.person),
                         ),
-                      ),
-                      Text(
-                        '@userhandle',
-                        style: TextStyle(
-                          color: Colors.grey,
+                        const SizedBox(
+                          width: 10,
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  user![userId - 1].firstName.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  user![userId - 1].lastName.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              user![userId - 1].handle.toString(),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    )
+                  : const SizedBox(
+                      height: 40,
+                    ),
             ),
           ),
         ],

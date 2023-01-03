@@ -88,22 +88,26 @@ class User {
     this.userId,
     this.firstName,
     this.lastName,
+    this.handle,
   });
 
   int? userId;
   String? firstName;
   String? lastName;
+  String? handle;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["userId"],
         firstName: json["firstName"],
         lastName: json["lastName"],
+        handle: json["handle"],
       );
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
         "firstName": firstName,
         "lastName": lastName,
+        "handle": handle,
       };
 }
 

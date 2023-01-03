@@ -103,37 +103,11 @@ class _SingleTweetState extends State<SingleTweet> {
     return false;
   }
 
-  showAlertDialog(BuildContext context) {
-    Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      child: const Text("Delete", style: TextStyle(color: Colors.red)),
-      onPressed: () {
-        deleteTweet();
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text("Delete Tweet"),
-      content: const Text(
-          "Are you sure you want to delete this tweet?\nThis action cannot be undone."),
-      actions: [
-        continueButton,
-        cancelButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  bool allowDelete() {
+    if (singleTweet.user!.userId != userId) {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -214,10 +188,18 @@ class _SingleTweetState extends State<SingleTweet> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('Tweeter Name'),
+                                  Row(
+                                    children: [
+                                      Text(singleTweet.user!.firstName
+                                          .toString()),
+                                      const SizedBox(width: 3),
+                                      Text(singleTweet.user!.lastName
+                                          .toString()),
+                                    ],
+                                  ),
                                   const SizedBox(height: 5),
                                   Text(
-                                    '@tweeterhandle',
+                                    singleTweet.user!.handle.toString(),
                                     style: TextStyle(
                                       color:
                                           Theme.of(context).primaryColorLight,
@@ -308,9 +290,13 @@ class _SingleTweetState extends State<SingleTweet> {
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete),
-                                  color: const Color.fromARGB(200, 244, 67, 54),
+                                  color: allowDelete()
+                                      ? Theme.of(context).primaryColorLight
+                                      : Colors.green,
                                   onPressed: () {
-                                    showAlertDialog(context);
+                                    allowDelete()
+                                        ? showAlertDialog2(context)
+                                        : showAlertDialog(context);
                                   },
                                 ),
                               ],
@@ -456,10 +442,22 @@ class _SingleTweetState extends State<SingleTweet> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Text('Commenter Name'),
+                                                Text(singleTweet
+                                                    .comments![index]
+                                                    .user!
+                                                    .firstName
+                                                    .toString()),
+                                                const SizedBox(width: 3),
+                                                Text(singleTweet
+                                                    .comments![index]
+                                                    .user!
+                                                    .lastName
+                                                    .toString()),
                                                 const SizedBox(width: 5),
                                                 Text(
-                                                  '@userhandle',
+                                                  singleTweet.comments![index]
+                                                      .user!.handle
+                                                      .toString(),
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .primaryColorLight,
@@ -479,9 +477,10 @@ class _SingleTweetState extends State<SingleTweet> {
                                                         .primaryColorLight,
                                                   ),
                                                 ),
-                                                const Text(
-                                                  '@tweeterhandle',
-                                                  style: TextStyle(
+                                                Text(
+                                                  singleTweet.user!.handle
+                                                      .toString(),
+                                                  style: const TextStyle(
                                                       color: Colors.blue),
                                                 ),
                                               ],
@@ -521,6 +520,64 @@ class _SingleTweetState extends State<SingleTweet> {
               )
             : Container(),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Delete", style: TextStyle(color: Colors.red)),
+      onPressed: () {
+        deleteTweet();
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete Tweet"),
+      content: const Text(
+          "Are you sure you want to delete this tweet?\nThis action cannot be undone."),
+      actions: [
+        continueButton,
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialog2(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete Tweet"),
+      content:
+          const Text("You can't delete this tweet because it's not yours."),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

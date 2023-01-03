@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:twitter_clone/models/users.dart';
+
 import '../models/tweet.dart';
 import '../models/tweets.dart';
 import 'package:http/http.dart' as http;
@@ -92,6 +94,20 @@ class PostLike {
       return true;
     } else {
       return false;
+    }
+  }
+}
+
+class FetchUsers {
+  Future<List<Users>?> getAllUsers() async {
+    var client = http.Client();
+    var uri = Uri.parse('$addressAndPort/api/users/');
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return usersFromJson(jsonString);
+    } else {
+      return null;
     }
   }
 }

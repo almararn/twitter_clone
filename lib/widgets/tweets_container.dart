@@ -167,10 +167,18 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Text('Tweeter Name'),
+                                      Text(tweets![index]
+                                          .user!
+                                          .firstName!
+                                          .toString()),
+                                      const SizedBox(width: 3),
+                                      Text(tweets![index]
+                                          .user!
+                                          .lastName!
+                                          .toString()),
                                       const SizedBox(width: 5),
                                       Text(
-                                        '@tweeterhandle',
+                                        tweets![index].user!.handle!.toString(),
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .primaryColorLight,
