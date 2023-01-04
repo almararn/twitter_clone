@@ -18,6 +18,7 @@ class _SingleTweetState extends State<SingleTweet> {
   bool isLoading = false;
   late Tweet singleTweet;
   bool isLoaded = false;
+  int userImg = 0;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _SingleTweetState extends State<SingleTweet> {
 
   getData() async {
     singleTweet = await FetchSingleTweet().getSingleTweet(tweetNumber);
+    userImg = singleTweet.userId as int;
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         isLoaded = true;
@@ -176,13 +178,11 @@ class _SingleTweetState extends State<SingleTweet> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Colors.grey,
-                                child: Icon(
-                                  Icons.person,
-                                  size: 30,
-                                ),
+                                backgroundImage: AssetImage(
+                                    'assets/images/user$userImg.jpeg'),
                               ),
                               const SizedBox(width: 15),
                               Column(
@@ -335,13 +335,11 @@ class _SingleTweetState extends State<SingleTweet> {
                             children: [
                               Row(
                                 children: [
-                                  const CircleAvatar(
+                                  CircleAvatar(
                                     radius: 30,
                                     backgroundColor: Colors.grey,
-                                    child: Icon(
-                                      Icons.person,
-                                      size: 30,
-                                    ),
+                                    backgroundImage: AssetImage(
+                                        'assets/images/user$userId.jpeg'),
                                   ),
                                   const SizedBox(width: 15),
                                   SizedBox(
@@ -412,6 +410,8 @@ class _SingleTweetState extends State<SingleTweet> {
                           padding: EdgeInsets.zero,
                           itemCount: singleTweet.comments?.length,
                           itemBuilder: (context, index) {
+                            int img = singleTweet.comments![index].user!.userId
+                                as int;
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -427,13 +427,11 @@ class _SingleTweetState extends State<SingleTweet> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const CircleAvatar(
+                                        CircleAvatar(
                                           radius: 30,
                                           backgroundColor: Colors.grey,
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 30,
-                                          ),
+                                          backgroundImage: AssetImage(
+                                              'assets/images/user$img.jpeg'),
                                         ),
                                         const SizedBox(width: 15),
                                         Column(

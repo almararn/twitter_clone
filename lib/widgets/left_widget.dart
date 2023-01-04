@@ -5,8 +5,10 @@ import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 
 class NavigationLeft extends StatefulWidget {
+  final VoidCallback leftWidgetCallback;
   const NavigationLeft({
     Key? key,
+    required this.leftWidgetCallback,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
           const Padding(
             padding: EdgeInsets.only(left: 22, top: 20, bottom: 10),
             child: Image(
-              image: AssetImage('images/twitter.png'),
+              image: AssetImage('assets/images/twitter.png'),
               height: 30,
               width: 30,
               color: Colors.lightBlue,
@@ -54,6 +56,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
               child: SizedBox(
                 height: 600,
                 child: NavigationRail(
+                  indicatorColor: Colors.red,
                   unselectedLabelTextStyle: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                     fontSize: 18,
@@ -132,58 +135,69 @@ class _NavigationLeftState extends State<NavigationLeft> {
               )),
             ),
           ), */
-          SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 18, bottom: 10, right: 10, top: 10),
-              child: isLoaded
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          child: Icon(Icons.person),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  user![userId - 1].firstName.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+          InkWell(
+            onTap: widget.leftWidgetCallback,
+            hoverColor: const Color.fromARGB(10, 33, 149, 243),
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: SizedBox(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 18, bottom: 15, right: 18, top: 15),
+                child: isLoaded
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            backgroundImage:
+                                AssetImage('assets/images/user$userId.jpeg'),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    user![userId - 1].firstName.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  user![userId - 1].lastName.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                  const SizedBox(
+                                    width: 3,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              user![userId - 1].handle.toString(),
-                              style: const TextStyle(
-                                color: Colors.grey,
+                                  Text(
+                                    user![userId - 1].lastName.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ],
-                    )
-                  : const SizedBox(
-                      height: 40,
-                    ),
+                              Text(
+                                user![userId - 1].handle.toString(),
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      )
+                    : const SizedBox(
+                        height: 40,
+                      ),
+              ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

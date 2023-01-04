@@ -15,7 +15,6 @@ class _TweetComposeState extends State<TweetCompose> {
   bool isLoading = false;
 
   sendData() async {
-    print(userId);
     var tweets = {'text': _textInput.text, 'userId': userId};
     if (_textInput.text.isNotEmpty) {
       setState(() {
@@ -86,13 +85,11 @@ class _TweetComposeState extends State<TweetCompose> {
               children: [
                 Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.grey,
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                      ),
+                      backgroundImage:
+                          AssetImage('assets/images/user$userId.jpeg'),
                     ),
                     const SizedBox(width: 15),
                     Column(

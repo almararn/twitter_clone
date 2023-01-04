@@ -16,7 +16,7 @@ class TweetsContainer extends StatefulWidget {
   }
 }
 
-int userId = 2;
+int userId = 1;
 int likeId = 0;
 int buttonId = 0;
 
@@ -134,7 +134,10 @@ class _TweetsContainerState extends State<TweetsContainer> {
               padding: EdgeInsets.zero,
               itemCount: tweets!.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
+                int img = tweets![index].user!.userId as int;
+                return InkWell(
+                  //    hoverColor: const Color.fromARGB(10, 33, 149, 243),
+                  //  hoverColor: Theme.of(context).hoverColor,
                   onTap: () {
                     widget
                         .tweetsCtrCallback(tweets![index].tweetId ?? index + 1);
@@ -153,13 +156,11 @@ class _TweetsContainerState extends State<TweetsContainer> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Colors.grey,
-                                child: Icon(
-                                  Icons.person,
-                                  size: 30,
-                                ),
+                                backgroundImage:
+                                    AssetImage('assets/images/user$img.jpeg'),
                               ),
                               const SizedBox(width: 15),
                               Column(

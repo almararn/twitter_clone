@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:twitter_clone/models/users.dart';
-
+import '../models/users.dart';
 import '../models/tweet.dart';
 import '../models/tweets.dart';
 import 'package:http/http.dart' as http;

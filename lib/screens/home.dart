@@ -11,19 +11,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int pageNr = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          NavigationLeft(),
-          Expanded(
-            flex: 10,
-            child: HomeWidget(),
+        children: [
+          NavigationLeft(
+            leftWidgetCallback: () {
+              setState(() {
+                pageNr = 2;
+              });
+            },
           ),
           Expanded(
+            flex: 10,
+            child: HomeWidget(
+                pageNr: pageNr,
+                homeWidgetCallback: () {
+                  setState(() {
+                    pageNr = 0;
+                  });
+                }),
+          ),
+          const Expanded(
             flex: 8,
             child: RightPanel(),
           ),

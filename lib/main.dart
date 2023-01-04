@@ -15,8 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          fontFamily: GoogleFonts.ubuntu().fontFamily,
-          brightness: Brightness.dark),
+        fontFamily: GoogleFonts.ubuntu().fontFamily,
+        brightness: Brightness.dark,
+        //  primarySwatch: Colors.grey,
+      ),
       home: const HomePage(),
       debugShowCheckedModeBanner: false, // fix later
     );
