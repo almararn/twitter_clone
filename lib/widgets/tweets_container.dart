@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:twitter_clone/settings.dart';
 import 'package:twitter_clone/widgets/tweet_compose.dart';
 import '../models/tweets.dart';
 import '../services/api_service.dart';
@@ -16,15 +17,16 @@ class TweetsContainer extends StatefulWidget {
   }
 }
 
-int userId = 1;
-int likeId = 0;
-int buttonId = 0;
+//int userId = 1;
+// int likeId = 0;
+// int buttonId = 0;
 
 class _TweetsContainerState extends State<TweetsContainer> {
   List<Tweets>? tweets = [];
   bool isLoaded = false;
   bool isLoading = false;
   int tweetId = 0;
+  int buttonId = 0;
 
   @override
   void initState() {
@@ -73,14 +75,14 @@ class _TweetsContainerState extends State<TweetsContainer> {
     });
     if (!isLiked(index)) {
       for (int i = 0; i < tweets![index].likes!.length; i++) {
-        if (tweets![index].likes![i].userId == userId) {
-          likeId = tweets![index].likes![i].likeId!;
+        if (tweets![index].likes![i].userId == Settings.userId) {
+          Settings.likeId = tweets![index].likes![i].likeId!;
         }
       }
       tweetId = tweets![index].tweetId!;
       var like = {
         'tweetId': tweetId,
-        'userId': userId,
+        'userId': Settings.userId,
       };
       await PostLike().addLike(like);
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -91,11 +93,11 @@ class _TweetsContainerState extends State<TweetsContainer> {
       });
     } else {
       for (int i = 0; i < tweets![index].likes!.length; i++) {
-        if (tweets![index].likes![i].userId == userId) {
-          likeId = tweets![index].likes![i].likeId!;
+        if (tweets![index].likes![i].userId == Settings.userId) {
+          Settings.likeId = tweets![index].likes![i].likeId!;
         }
       }
-      await PostLike().remoweLike(likeId);
+      await PostLike().remoweLike(Settings.likeId);
 
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
@@ -108,7 +110,7 @@ class _TweetsContainerState extends State<TweetsContainer> {
 
   bool isLiked(int index) {
     for (int i = 0; i < tweets![index].likes!.length; i++) {
-      if (tweets![index].likes![i].userId == userId) {
+      if (tweets![index].likes![i].userId == Settings.userId) {
         return true;
       }
     }

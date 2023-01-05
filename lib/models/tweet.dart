@@ -114,21 +114,25 @@ class Like {
     this.likeId,
     this.tweetId,
     this.userId,
+    this.user,
   });
 
   int? likeId;
   int? tweetId;
   int? userId;
+  User? user;
 
   factory Like.fromJson(Map<String, dynamic> json) => Like(
         likeId: json["likeId"],
         tweetId: json["tweetId"],
         userId: json["userId"],
+        user: User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
         "likeId": likeId,
         "tweetId": tweetId,
         "userId": userId,
+        "user": user!.toJson(),
       };
 }

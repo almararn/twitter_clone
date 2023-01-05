@@ -4,6 +4,8 @@ import 'package:twitter_clone/models/users.dart';
 import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 
+import '../settings.dart';
+
 class NavigationLeft extends StatefulWidget {
   final VoidCallback leftWidgetCallback;
   const NavigationLeft({
@@ -151,8 +153,8 @@ class _NavigationLeftState extends State<NavigationLeft> {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.grey,
-                            backgroundImage:
-                                AssetImage('assets/images/user$userId.jpeg'),
+                            backgroundImage: AssetImage(
+                                'assets/images/user${Settings.userId}.jpeg'),
                           ),
                           const SizedBox(
                             width: 10,
@@ -163,7 +165,9 @@ class _NavigationLeftState extends State<NavigationLeft> {
                               Row(
                                 children: [
                                   Text(
-                                    user![userId - 1].firstName.toString(),
+                                    user![Settings.userId - 1]
+                                        .firstName
+                                        .toString(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -172,7 +176,9 @@ class _NavigationLeftState extends State<NavigationLeft> {
                                     width: 3,
                                   ),
                                   Text(
-                                    user![userId - 1].lastName.toString(),
+                                    user![Settings.userId - 1]
+                                        .lastName
+                                        .toString(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -180,7 +186,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
                                 ],
                               ),
                               Text(
-                                user![userId - 1].handle.toString(),
+                                user![Settings.userId - 1].handle.toString(),
                                 style: const TextStyle(
                                   color: Colors.grey,
                                 ),

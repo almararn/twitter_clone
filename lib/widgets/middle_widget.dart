@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_clone/widgets/single_tweet.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 import 'package:twitter_clone/widgets/user_selection.dart';
+
+import '../settings.dart';
 
 // ignore: must_be_immutable
 class HomeWidget extends StatefulWidget {
@@ -13,8 +16,6 @@ class HomeWidget extends StatefulWidget {
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
 }
-
-int tweetNumber = 0;
 
 class _HomeWidgetState extends State<HomeWidget> {
   late List screens = [
@@ -30,14 +31,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       });
     } else {
       setState(() {
-        userId = index;
+        Settings.userId = index;
         widget.homeWidgetCallback();
+        _storeUser(index);
       });
     }
   }
 
   tweetsCallback(int value) {
-    tweetNumber = value;
+    Settings.tweetNumber = value;
     setState(() {
       widget.pageNr = 1;
     });
@@ -47,6 +49,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     setState(() {
       widget.pageNr = 0;
     });
+  }
+
+  Future<void> _storeUser(int user) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('user', user);
   }
 
   @override

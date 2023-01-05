@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/services/api_service.dart';
+import 'package:twitter_clone/settings.dart';
 import 'package:twitter_clone/widgets/middle_widget.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 import '../models/tweet.dart';
@@ -27,14 +28,14 @@ class _SingleTweetState extends State<SingleTweet> {
   }
 
   Future dataBuilder() async {
-    singleTweet = await FetchSingleTweet().getSingleTweet(tweetNumber);
+    singleTweet = await FetchSingleTweet().getSingleTweet(Settings.tweetNumber);
     return singleTweet;
   }
 
   getData() async {
-    singleTweet = await FetchSingleTweet().getSingleTweet(tweetNumber);
+    singleTweet = await FetchSingleTweet().getSingleTweet(Settings.tweetNumber);
     userImg = singleTweet.userId as int;
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         isLoaded = true;
         isLoading = false;
@@ -49,7 +50,7 @@ class _SingleTweetState extends State<SingleTweet> {
   }
 
   deleteTweet() async {
-    await EraseTweet().deleteTweet(tweetNumber).then(
+    await EraseTweet().deleteTweet(Settings.tweetNumber).then(
       (value) {
         if (value) {
           widget.singleTweetCallback();
@@ -62,7 +63,7 @@ class _SingleTweetState extends State<SingleTweet> {
     var comment = {
       'text': _textInput.text,
       'tweetId': singleTweet.tweetId,
-      'userId': userId,
+      'userId': Settings.userId,
     };
     setState(() {
       isLoading = true;
@@ -78,7 +79,7 @@ class _SingleTweetState extends State<SingleTweet> {
     if (!isLiked()) {
       var like = {
         'tweetId': singleTweet.tweetId,
-        'userId': userId,
+        'userId': Settings.userId,
       };
       setState(() {
         isLoading = true;
@@ -90,15 +91,15 @@ class _SingleTweetState extends State<SingleTweet> {
       setState(() {
         isLoading = true;
       });
-      await PostLike().remoweLike(likeId);
+      await PostLike().remoweLike(Settings.likeId);
       getData();
     }
   }
 
   bool isLiked() {
     for (int i = 0; i < singleTweet.likes!.length; i++) {
-      if (singleTweet.likes![i].userId == userId) {
-        likeId = (singleTweet.likes![i].likeId) as int;
+      if (singleTweet.likes![i].userId == Settings.userId) {
+        Settings.likeId = (singleTweet.likes![i].likeId) as int;
         return true;
       }
     }
@@ -106,7 +107,7 @@ class _SingleTweetState extends State<SingleTweet> {
   }
 
   bool allowDelete() {
-    if (singleTweet.user!.userId != userId) {
+    if (singleTweet.user!.userId != Settings.userId) {
       return true;
     }
     return false;
@@ -250,7 +251,66 @@ class _SingleTweetState extends State<SingleTweet> {
                             ],
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 5,
+                          ),
+                          SizedBox(
+                            height: 40,
+                            width: 500,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Visibility(
+                                  visible: singleTweet.likes!.isNotEmpty,
+                                  child: Text(
+                                    'Liked by: ',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                    ),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  reverse: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  itemCount: singleTweet.likes?.length,
+                                  itemBuilder: (context, index) {
+                                    return Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          singleTweet.likes![index].user!.handle
+                                              .toString(),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                        Visibility(
+                                          visible: index != 0,
+                                          child: Text('•',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .primaryColorLight,
+                                              )),
+                                        ),
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                           Divider(
                             color: Theme.of(context).primaryColorLight,
@@ -339,7 +399,7 @@ class _SingleTweetState extends State<SingleTweet> {
                                     radius: 30,
                                     backgroundColor: Colors.grey,
                                     backgroundImage: AssetImage(
-                                        'assets/images/user$userId.jpeg'),
+                                        'assets/images/user${Settings.userId}.jpeg'),
                                   ),
                                   const SizedBox(width: 15),
                                   SizedBox(
@@ -520,6 +580,8 @@ class _SingleTweetState extends State<SingleTweet> {
       ),
     );
   }
+
+// Alert Dialogs
 
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(

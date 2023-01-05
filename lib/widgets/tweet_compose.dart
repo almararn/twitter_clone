@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 import '../services/api_service.dart';
+import '../settings.dart';
 
 class TweetCompose extends StatefulWidget {
   final VoidCallback voidCallback;
@@ -15,7 +16,7 @@ class _TweetComposeState extends State<TweetCompose> {
   bool isLoading = false;
 
   sendData() async {
-    var tweets = {'text': _textInput.text, 'userId': userId};
+    var tweets = {'text': _textInput.text, 'userId': Settings.userId};
     if (_textInput.text.isNotEmpty) {
       setState(() {
         isLoading = true;
@@ -88,8 +89,8 @@ class _TweetComposeState extends State<TweetCompose> {
                     CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.grey,
-                      backgroundImage:
-                          AssetImage('assets/images/user$userId.jpeg'),
+                      backgroundImage: AssetImage(
+                          'assets/images/user${Settings.userId}.jpeg'),
                     ),
                     const SizedBox(width: 15),
                     Column(

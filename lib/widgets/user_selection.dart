@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_clone/settings.dart';
 import '../models/users.dart';
 import '../services/api_service.dart';
 
@@ -13,11 +15,33 @@ class UserSelection extends StatefulWidget {
 class _UserSelectionState extends State<UserSelection> {
   List<Users>? user = [];
   bool isLoaded = false;
+  bool initialPage = true;
 
   @override
   void initState() {
     getData();
+    _loadPage();
     super.initState();
+  }
+
+  Future<void> _loadPage() async {
+    final prefs = await SharedPreferences.getInstance();
+    if ((prefs.getInt('user')) != null) {
+      setState(() {
+        initialPage = false;
+      });
+    }
+  }
+
+  Future<void> _clearPage() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
+    setState(() {
+      initialPage = true;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      widget.usersCtrCallback(0);
+    });
   }
 
   getData() async {
@@ -92,57 +116,84 @@ class _UserSelectionState extends State<UserSelection> {
                       widget.usersCtrCallback(userId);
                     },
                     child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white10,
-                        ),
-                        height: 100,
-                        width: 100,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: CircleAvatar(
-                                radius: 40,
-                                backgroundImage: AssetImage(
-                                    'assets/images/user$userId.jpeg'),
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      user![index].firstName.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text(
-                                      user![index].lastName.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white10,
+                      ),
+                      height: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/user$userId.jpeg'),
                                 ),
-                                Text(
-                                  user![index].handle.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        user![index].firstName.toString(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(
+                                        user![index].lastName.toString(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    user![index].handle.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Visibility(
+                            visible:
+                                index + 1 == Settings.userId && !initialPage,
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Image(
+                                    image: AssetImage('assets/images/tick.png'),
                                   ),
                                 ),
+                                IconButton(
+                                  onPressed: () {
+                                    showAlertDialog(context);
+                                  },
+                                  icon: const Icon(Icons.more_vert),
+                                  color: Theme.of(context).primaryColorLight,
+                                )
                               ],
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
@@ -150,6 +201,40 @@ class _UserSelectionState extends State<UserSelection> {
           ),
         ],
       ),
+    );
+  }
+  // Alert Dialogs
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Reset", style: TextStyle(color: Colors.red)),
+      onPressed: () {
+        _clearPage();
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Reset Default User"),
+      content: const Text(
+          'Press "Reset" if you want to clear the defeault user and get the\nUser Selection Screen next time you run this apllication'),
+      actions: [
+        continueButton,
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

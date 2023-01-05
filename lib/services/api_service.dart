@@ -26,8 +26,8 @@ class FetchSingleTweet {
     var client = http.Client();
     var uri = Uri.parse('$addressAndPort/api/tweet/$i');
     var response = await client.get(uri);
-    //   print('Fetched API: #$i');
-    //   print(response.body);
+    //print('Fetched API: #$i');
+    //print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       return singleTweet(jsonString);
