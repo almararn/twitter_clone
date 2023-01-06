@@ -36,6 +36,7 @@ class _UserSelectionState extends State<UserSelection> {
   Future<void> _clearPage() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
+    Settings.reset = true;
     setState(() {
       initialPage = true;
     });
@@ -55,54 +56,98 @@ class _UserSelectionState extends State<UserSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 40,
-          ),
-          GestureDetector(
-            onTap: (() => widget.usersCtrCallback(0)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.arrow_back),
-                      Container(
-                        color: Colors.transparent,
-                        width: 20,
-                        height: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.width < 600 ? 15 : 40,
+        ),
+        GestureDetector(
+          onTap: (() => widget.usersCtrCallback(0)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Visibility(
+                      visible: !initialPage,
+                      replacement: Row(
+                        children: const [
+                          Image(
+                            image: AssetImage('assets/images/twitter.png'),
+                            height: 20,
+                            width: 20,
+                            color: Colors.lightBlue,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Welcome to Twitter Clone',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'Go back',
-                        style: TextStyle(fontSize: 20),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.arrow_back),
+                          Container(
+                            color: Colors.transparent,
+                            width: 20,
+                            height: 20,
+                          ),
+                          const Text(
+                            'Go back',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Text(
+                    ),
+                    Visibility(
+                      visible: MediaQuery.of(context).size.width > 600,
+                      child: Text(
+                        'Choose your account here ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).primaryColorLight,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Visibility(
+                  visible: MediaQuery.of(context).size.width < 600,
+                  child: Text(
                     'Choose your account here ',
                     style: TextStyle(
                       fontSize: 20,
                       color: Theme.of(context).primaryColorLight,
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
-          const SizedBox(
-            height: 25,
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Visibility(
+          visible: isLoaded,
+          replacement: const Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 50.0),
+              child: CircularProgressIndicator(),
+            ),
           ),
-          SizedBox(
-            height: 600,
-            //  width: 100,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - 90,
             child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              //       shrinkWrap: true,
               itemCount: user!.length,
               itemBuilder: (context, index) {
                 int userId = user![index].userId as int;
@@ -199,8 +244,8 @@ class _UserSelectionState extends State<UserSelection> {
               },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
   // Alert Dialogs
@@ -213,7 +258,7 @@ class _UserSelectionState extends State<UserSelection> {
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Reset", style: TextStyle(color: Colors.red)),
+      child: const Text("Logout", style: TextStyle(color: Colors.red)),
       onPressed: () {
         _clearPage();
         Navigator.of(context).pop();
@@ -221,9 +266,9 @@ class _UserSelectionState extends State<UserSelection> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: const Text("Reset Default User"),
+      title: const Text("Logout Default User"),
       content: const Text(
-          'Press "Reset" if you want to clear the defeault user and get the\nUser Selection Screen next time you run this apllication'),
+          'Press "Logout" if you want to logout the default user and get the\nUser Selection Screen next time you run this application'),
       actions: [
         continueButton,
         cancelButton,

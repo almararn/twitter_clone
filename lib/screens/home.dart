@@ -1,9 +1,9 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_clone/widgets/middle_widget.dart';
 import 'package:twitter_clone/widgets/right_widget.dart';
-import '../widgets/left_widget.dart';
+import 'package:twitter_clone/widgets/left_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int pageNr = 0;
+  bool initialPage = true;
 
   @override
   void initState() {
@@ -29,7 +30,23 @@ class _HomePageState extends State<HomePage> {
       });
     } else {
       setState(() {
+        initialPage = false;
         Settings.userId = prefs.getInt('user') ?? 0;
+      });
+    }
+  }
+
+  homeCallBack() {
+    if (Settings.reset) {
+      setState(() {
+        pageNr = 2;
+        initialPage = true;
+      });
+      Settings.reset = false;
+    } else {
+      setState(() {
+        pageNr = 0;
+        initialPage = false;
       });
     }
   }
@@ -41,26 +58,42 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NavigationLeft(
-            leftWidgetCallback: () {
-              setState(() {
-                pageNr = 2;
-              });
-            },
+          Visibility(
+            visible: !initialPage,
+            child: NavigationLeft(
+              leftWidgetCallback: () {
+                setState(() {
+                  pageNr = 2;
+                });
+              },
+            ),
           ),
-          Expanded(
-            flex: 10,
-            child: HomeWidget(
-                pageNr: pageNr,
-                homeWidgetCallback: () {
-                  setState(() {
-                    pageNr = 0;
-                  });
-                }),
+          Visibility(
+            visible: !initialPage,
+            replacement: Container(
+              constraints: const BoxConstraints(maxWidth: 800),
+              width: MediaQuery.of(context).size.width,
+              child: HomeWidget(
+                  pageNr: pageNr,
+                  homeWidgetCallback: () {
+                    homeCallBack();
+                  }),
+            ),
+            child: Expanded(
+              flex: 10,
+              child: HomeWidget(
+                  pageNr: pageNr,
+                  homeWidgetCallback: () {
+                    homeCallBack();
+                  }),
+            ),
           ),
-          const Expanded(
-            flex: 8,
-            child: RightPanel(),
+          Visibility(
+            visible: !initialPage,
+            child: const Expanded(
+              flex: 8,
+              child: RightPanel(),
+            ),
           ),
         ],
       ),

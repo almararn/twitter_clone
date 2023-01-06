@@ -9,18 +9,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: GoogleFonts.ubuntu().fontFamily,
         brightness: Brightness.dark,
-        //  primarySwatch: Colors.grey,
+        primarySwatch: Colors.grey,
       ),
       home: const HomePage(),
-      debugShowCheckedModeBanner: false, // fix later
     );
   }
 }

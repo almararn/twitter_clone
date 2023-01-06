@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:twitter_clone/models/users.dart';
 import 'package:twitter_clone/services/api_service.dart';
-import 'package:twitter_clone/widgets/tweets_container.dart';
-
 import '../settings.dart';
 
 class NavigationLeft extends StatefulWidget {
@@ -58,7 +56,6 @@ class _NavigationLeftState extends State<NavigationLeft> {
               child: SizedBox(
                 height: 600,
                 child: NavigationRail(
-                  indicatorColor: Colors.red,
                   unselectedLabelTextStyle: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                     fontSize: 18,
@@ -67,6 +64,9 @@ class _NavigationLeftState extends State<NavigationLeft> {
                       color: Theme.of(context).primaryColorLight,
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
+                  selectedIconTheme: const IconThemeData(
+                    color: Colors.blue,
+                  ),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   extended: true,
                   selectedIndex: _selectedIndex,
@@ -138,8 +138,9 @@ class _NavigationLeftState extends State<NavigationLeft> {
             ),
           ), */
           InkWell(
+            hoverColor: Colors.grey.withOpacity(0.04),
             onTap: widget.leftWidgetCallback,
-            hoverColor: const Color.fromARGB(10, 33, 149, 243),
+            // hoverColor: const Color.fromARGB(10, 33, 149, 243),
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -159,39 +160,42 @@ class _NavigationLeftState extends State<NavigationLeft> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    user![Settings.userId - 1]
-                                        .firstName
-                                        .toString(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: 160,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      user![Settings.userId - 1]
+                                          .firstName
+                                          .toString(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    user![Settings.userId - 1]
-                                        .lastName
-                                        .toString(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                    const SizedBox(
+                                      width: 3,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                user![Settings.userId - 1].handle.toString(),
-                                style: const TextStyle(
-                                  color: Colors.grey,
+                                    Text(
+                                      user![Settings.userId - 1]
+                                          .lastName
+                                          .toString(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
+                                Text(
+                                  user![Settings.userId - 1].handle.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       )
