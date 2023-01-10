@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/settings.dart';
-import 'package:twitter_clone/widgets/middle_widget.dart';
-import 'package:twitter_clone/widgets/tweets_container.dart';
-import '../models/tweet.dart';
+import 'package:twitter_clone/models/tweet.dart';
 import 'package:intl/intl.dart';
 
 class SingleTweet extends StatefulWidget {
@@ -115,7 +113,15 @@ class _SingleTweetState extends State<SingleTweet> {
 
   @override
   Widget build(BuildContext context) {
-    double respWidth = MediaQuery.of(context).size.width * 0.3 - 100;
+    int totalWidth = MediaQuery.of(context).size.width as int;
+    double respWidth = totalWidth - 1000;
+    if (totalWidth < 600) {
+      respWidth = totalWidth - 250;
+    } else if (totalWidth < 1000) {
+      respWidth = totalWidth - 400;
+    } else if (totalWidth < 1200) {
+      respWidth = totalWidth - 810;
+    }
     return SingleChildScrollView(
       child: Visibility(
         visible: isLoaded,
@@ -211,11 +217,13 @@ class _SingleTweetState extends State<SingleTweet> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          SizedBox(
-                            width: 400,
-                            child: Text(
-                              singleTweet.text.toString(),
-                              style: const TextStyle(fontSize: 22),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: SizedBox(
+                              child: Text(
+                                singleTweet.text.toString(),
+                                style: const TextStyle(fontSize: 22),
+                              ),
                             ),
                           ),
                           const SizedBox(

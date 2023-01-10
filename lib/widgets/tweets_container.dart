@@ -17,10 +17,6 @@ class TweetsContainer extends StatefulWidget {
   }
 }
 
-//int userId = 1;
-// int likeId = 0;
-// int buttonId = 0;
-
 class _TweetsContainerState extends State<TweetsContainer> {
   List<Tweets>? tweets = [];
   bool isLoaded = false;
@@ -119,7 +115,17 @@ class _TweetsContainerState extends State<TweetsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    double respWidth = MediaQuery.of(context).size.width * 0.3;
+    int totalWidth = MediaQuery.of(context).size.width as int;
+    double respWidth = totalWidth * 0.3;
+    if (totalWidth < 600) {
+      respWidth = totalWidth - 150;
+    } else if (totalWidth < 1000) {
+      respWidth = totalWidth - 300;
+    } else if (totalWidth < 1200) {
+      respWidth = totalWidth * 0.3 + 80;
+    }
+
+    print(totalWidth);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -210,6 +216,9 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                   ),
                                   SizedBox(
                                     width: respWidth,
+/*                                     width: respWidth < 300
+                                        ? respWidth + 100
+                                        : respWidth, */
                                     child: Text(
                                       tweets![index].text.toString(),
                                       style: TextStyle(
@@ -223,6 +232,9 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                   ),
                                   SizedBox(
                                     width: respWidth,
+/*                                     width: respWidth < 300
+                                        ? respWidth + 100
+                                        : respWidth, */
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

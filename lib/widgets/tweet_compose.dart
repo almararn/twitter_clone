@@ -40,7 +40,15 @@ class _TweetComposeState extends State<TweetCompose> {
 
   @override
   Widget build(BuildContext context) {
-    double respWidth = MediaQuery.of(context).size.width * 0.3 - 100;
+    int totalWidth = MediaQuery.of(context).size.width as int;
+    double respWidth = totalWidth - 1000;
+    if (totalWidth < 600) {
+      respWidth = totalWidth - 250;
+    } else if (totalWidth < 1000) {
+      respWidth = totalWidth - 400;
+    } else if (totalWidth < 1200) {
+      respWidth = totalWidth - 810;
+    }
     return Container(
       decoration: BoxDecoration(
         border: Border(

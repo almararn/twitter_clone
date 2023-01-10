@@ -37,6 +37,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
 
   @override
   Widget build(BuildContext context) {
+    int width = MediaQuery.of(context).size.width as int;
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Column(
@@ -56,6 +57,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
               child: SizedBox(
                 height: 600,
                 child: NavigationRail(
+                  minWidth: 60,
                   unselectedLabelTextStyle: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                     fontSize: 18,
@@ -68,7 +70,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
                     color: Colors.blue,
                   ),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  extended: true,
+                  extended: width > 1200 ? true : false,
                   selectedIndex: _selectedIndex,
                   onDestinationSelected: (index) =>
                       setState(() => _selectedIndex = index),
@@ -121,22 +123,40 @@ class _NavigationLeftState extends State<NavigationLeft> {
               ),
             ),
           ),
-/*           Padding(
-            padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
-            child: Container(
-              height: 50,
-              width: 200,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: Colors.blue,
+          Visibility(
+            visible: width > 1200,
+            replacement: Padding(
+              padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
+              child: Container(
+                height: 45,
+                width: 45,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  color: Colors.blue,
+                ),
+                child: const Center(
+                  child: Icon(Icons.playlist_add_outlined),
+                ),
               ),
-              child: const Center(
-                  child: Text(
-                'Tweet',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )),
             ),
-          ), */
+            child: Padding(
+              padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
+              child: Container(
+                height: 45,
+                width: 180,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  color: Colors.blue,
+                ),
+                child: const Center(
+                  child: Text(
+                    'Tweet',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ),
           InkWell(
             hoverColor: Colors.grey.withOpacity(0.04),
             onTap: widget.leftWidgetCallback,
@@ -160,41 +180,46 @@ class _NavigationLeftState extends State<NavigationLeft> {
                           const SizedBox(
                             width: 10,
                           ),
-                          SizedBox(
-                            width: 160,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      user![Settings.userId - 1]
-                                          .firstName
-                                          .toString(),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                          Visibility(
+                            visible: width > 1200,
+                            child: SizedBox(
+                              width: 160,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        user![Settings.userId - 1]
+                                            .firstName
+                                            .toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text(
-                                      user![Settings.userId - 1]
-                                          .lastName
-                                          .toString(),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                      const SizedBox(
+                                        width: 3,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  user![Settings.userId - 1].handle.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.grey,
+                                      Text(
+                                        user![Settings.userId - 1]
+                                            .lastName
+                                            .toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              ],
+                                  Text(
+                                    user![Settings.userId - 1]
+                                        .handle
+                                        .toString(),
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],

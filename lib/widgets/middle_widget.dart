@@ -3,8 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_clone/widgets/single_tweet.dart';
 import 'package:twitter_clone/widgets/tweets_container.dart';
 import 'package:twitter_clone/widgets/user_selection.dart';
-
-import '../settings.dart';
+import 'package:twitter_clone/settings.dart';
 
 // ignore: must_be_immutable
 class HomeWidget extends StatefulWidget {
@@ -59,7 +58,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-        itemCount: 2,
+        itemCount: 1,
         itemBuilder: (context, position) {
           return screens[widget.pageNr];
         });

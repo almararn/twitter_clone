@@ -53,13 +53,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int width = MediaQuery.of(context).size.width as int;
+    print(width);
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Visibility(
-            visible: !initialPage,
+            visible: !initialPage && width > 600,
             child: NavigationLeft(
               leftWidgetCallback: () {
                 setState(() {
@@ -89,7 +91,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Visibility(
-            visible: !initialPage,
+            replacement: SizedBox(
+              width: width > 600 ? 50 : 0,
+            ),
+            visible: !initialPage && width > 1000,
             child: const Expanded(
               flex: 8,
               child: RightPanel(),

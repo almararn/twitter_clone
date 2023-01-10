@@ -5,7 +5,7 @@ import '../models/tweets.dart';
 import 'package:http/http.dart' as http;
 
 // var addressAndPort = 'http://192.168.1.213:5291';
-var addressAndPort = 'http://api.hrollur.com:5291';
+var addressAndPort = 'http://129.151.209.61:5291';
 
 class FetchTweets {
   Future<List<Tweets>?> getTweets() async {
