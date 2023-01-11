@@ -113,7 +113,7 @@ class _SingleTweetState extends State<SingleTweet> {
 
   @override
   Widget build(BuildContext context) {
-    int totalWidth = MediaQuery.of(context).size.width as int;
+    int totalWidth = MediaQuery.of(context).size.width.toInt();
     double respWidth = totalWidth - 1000;
     if (totalWidth < 600) {
       respWidth = totalWidth - 250;
@@ -261,16 +261,14 @@ class _SingleTweetState extends State<SingleTweet> {
                           const SizedBox(
                             height: 5,
                           ),
-                          SizedBox(
-                            height: 40,
-                            width: 500,
+                          IntrinsicHeight(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Visibility(
                                   visible: singleTweet.likes!.isNotEmpty,
                                   child: Text(
-                                    'Liked by: ',
+                                    'Liked by:',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color:
@@ -278,44 +276,39 @@ class _SingleTweetState extends State<SingleTweet> {
                                     ),
                                   ),
                                 ),
-                                ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  reverse: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  itemCount: singleTweet.likes?.length,
-                                  itemBuilder: (context, index) {
-                                    return Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          singleTweet.likes![index].user!.handle
-                                              .toString(),
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 2,
-                                        ),
-                                        Visibility(
-                                          visible: index != 0,
-                                          child: Text('•',
-                                              style: TextStyle(
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Wrap(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    children: [
+                                      for (var like
+                                          in singleTweet.likes!.reversed)
+                                        Wrap(
+                                          children: [
+                                            Visibility(
+                                              visible: singleTweet.likes!.last
+                                                      .user!.handle !=
+                                                  like.user!.handle,
+                                              child: Text(
+                                                ' • ',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .primaryColorLight,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              like.user!.handle.toString(),
+                                              style: const TextStyle(
                                                 fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .primaryColorLight,
-                                              )),
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 2,
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

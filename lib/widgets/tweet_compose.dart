@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/widgets/tweets_container.dart';
 import '../services/api_service.dart';
 import '../settings.dart';
 
 class TweetCompose extends StatefulWidget {
-  final VoidCallback voidCallback;
-  const TweetCompose({super.key, required this.voidCallback});
+  final VoidCallback? voidCallback;
+  final VoidCallback? userSelectionCallback;
+  const TweetCompose(
+      {super.key, this.voidCallback, this.userSelectionCallback});
 
   @override
   State<TweetCompose> createState() => _TweetComposeState();
@@ -24,7 +25,7 @@ class _TweetComposeState extends State<TweetCompose> {
       await PostTweets().postTweets(tweets);
       _textInput.clear();
       Future.delayed(const Duration(milliseconds: 1000), () {
-        widget.voidCallback();
+        widget.voidCallback!();
         setState(() {
           isLoading = false;
         });
@@ -40,15 +41,6 @@ class _TweetComposeState extends State<TweetCompose> {
 
   @override
   Widget build(BuildContext context) {
-    int totalWidth = MediaQuery.of(context).size.width as int;
-    double respWidth = totalWidth - 1000;
-    if (totalWidth < 600) {
-      respWidth = totalWidth - 250;
-    } else if (totalWidth < 1000) {
-      respWidth = totalWidth - 400;
-    } else if (totalWidth < 1200) {
-      respWidth = totalWidth - 810;
-    }
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -67,9 +59,11 @@ class _TweetComposeState extends State<TweetCompose> {
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const SizedBox(
+            height: 10,
+          ),
           const SizedBox(
             height: 30,
           ),
@@ -88,89 +82,107 @@ class _TweetComposeState extends State<TweetCompose> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage(
-                          'assets/images/user${Settings.userId}.jpeg'),
-                    ),
-                    const SizedBox(width: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: respWidth,
-                          child: TextField(
-                            controller: _textInput,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              hintText: 'What\'s happening?',
-                              hintStyle: TextStyle(
-                                color: Theme.of(context).primaryColorLight,
-                                fontSize: 20,
-                              ),
-                              border: InputBorder.none,
-                            ),
+                        InkWell(
+                          onTap: () {
+                            widget.userSelectionCallback!();
+                          },
+                          borderRadius: BorderRadius.circular(50),
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: AssetImage(
+                                'assets/images/user${Settings.userId}.jpeg'),
                           ),
                         ),
-                        Row(
-                          children: [
-                            Icon(Icons.image_outlined,
-                                color: Theme.of(context).primaryColorLight),
-                            const SizedBox(width: 10),
-                            Icon(Icons.gif,
-                                color: Theme.of(context).primaryColorLight),
-                            const SizedBox(width: 10),
-                            Icon(Icons.bar_chart,
-                                color: Theme.of(context).primaryColorLight),
-                            const SizedBox(width: 10),
-                            Icon(Icons.poll_outlined,
-                                color: Theme.of(context).primaryColorLight),
-                            const SizedBox(width: 10),
-                            Icon(Icons.emoji_emotions_outlined,
-                                color: Theme.of(context).primaryColorLight),
-                            const SizedBox(width: 10),
-                            Icon(Icons.location_on_outlined,
-                                color: Theme.of(context).primaryColorLight),
-                          ],
+                        const SizedBox(width: 15),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                controller: _textInput,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  hintText: 'What\'s happening?',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context).primaryColorLight,
+                                    fontSize: 20,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.image_outlined,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                      const SizedBox(width: 10),
+                                      Icon(Icons.gif,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                      const SizedBox(width: 10),
+                                      Icon(Icons.bar_chart,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                      const SizedBox(width: 10),
+                                      Icon(Icons.poll_outlined,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                      const SizedBox(width: 10),
+                                      Icon(Icons.emoji_emotions_outlined,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                      const SizedBox(width: 10),
+                                      Icon(Icons.location_on_outlined,
+                                          color: Theme.of(context)
+                                              .primaryColorLight),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: sendData,
+                                    child: Container(
+                                      height: 40,
+                                      width: 100,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50)),
+                                        color: Colors.blue,
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          'Tweet',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: sendData,
-                      child: Container(
-                        height: 40,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          color: Colors.blue,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Tweet',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Stack(

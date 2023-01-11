@@ -38,10 +38,16 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   tweetsCallback(int value) {
-    Settings.tweetNumber = value;
-    setState(() {
-      widget.pageNr = 1;
-    });
+    if (value == 0) {
+      setState(() {
+        widget.pageNr = 2;
+      });
+    } else {
+      Settings.tweetNumber = value;
+      setState(() {
+        widget.pageNr = 1;
+      });
+    }
   }
 
   singleTweetCallback() {
