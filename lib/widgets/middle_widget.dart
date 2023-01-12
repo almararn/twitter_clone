@@ -5,54 +5,49 @@ import 'package:twitter_clone/widgets/tweets_container.dart';
 import 'package:twitter_clone/widgets/user_selection.dart';
 import 'package:twitter_clone/settings.dart';
 
-// ignore: must_be_immutable
-class HomeWidget extends StatefulWidget {
+class MiddleWidget extends StatefulWidget {
   final VoidCallback homeWidgetCallback;
-  int pageNr;
-  HomeWidget(
-      {super.key, required this.pageNr, required this.homeWidgetCallback});
+
+  const MiddleWidget({super.key, required this.homeWidgetCallback});
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
+  State<MiddleWidget> createState() => _MiddleWidgetState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class _MiddleWidgetState extends State<MiddleWidget> {
   late List screens = [
     TweetsContainer(tweetsCtrCallback: tweetsCallback),
     SingleTweet(singleTweetCallback: singleTweetCallback),
     UserSelection(usersCtrCallback: usersCallback),
+    Container()
   ];
 
   usersCallback(int index) {
     if (index == 0) {
-      setState(() {
-        widget.homeWidgetCallback();
-      });
+      widget.homeWidgetCallback();
     } else {
-      setState(() {
-        Settings.userId = index;
-        widget.homeWidgetCallback();
-        _storeUser(index);
-      });
+      Settings.userId = index;
+      widget.homeWidgetCallback();
+      _storeUser(index);
     }
   }
 
   tweetsCallback(int value) {
     if (value == 0) {
       setState(() {
-        widget.pageNr = 2;
+        Settings.screenIndex = 2;
       });
     } else {
       Settings.tweetNumber = value;
       setState(() {
-        widget.pageNr = 1;
+        Settings.screenIndex = 1;
       });
     }
   }
 
   singleTweetCallback() {
     setState(() {
-      widget.pageNr = 0;
+      Settings.screenIndex = 0;
     });
   }
 
@@ -61,12 +56,31 @@ class _HomeWidgetState extends State<HomeWidget> {
     prefs.setInt('user', user);
   }
 
+  Future<void> _loadPage() async {
+    final prefs = await SharedPreferences.getInstance();
+    if ((prefs.getInt('user')) == null) {
+      Settings.screenIndex = 2;
+    } else {
+      Settings.initialPage = false;
+      Settings.userId = prefs.getInt('user') ?? 0;
+      setState(() {
+        Settings.screenIndex = 0;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _loadPage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
         itemCount: 1,
         itemBuilder: (context, position) {
-          return screens[widget.pageNr];
+          return screens[Settings.screenIndex];
         });
   }
 }

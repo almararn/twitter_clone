@@ -15,22 +15,11 @@ class UserSelection extends StatefulWidget {
 class _UserSelectionState extends State<UserSelection> {
   List<Users>? user = [];
   bool isLoaded = false;
-  bool initialPage = true;
 
   @override
   void initState() {
     getData();
-    _loadPage();
     super.initState();
-  }
-
-  Future<void> _loadPage() async {
-    final prefs = await SharedPreferences.getInstance();
-    if ((prefs.getInt('user')) != null) {
-      setState(() {
-        initialPage = false;
-      });
-    }
   }
 
   Future<void> _clearPage() async {
@@ -38,7 +27,7 @@ class _UserSelectionState extends State<UserSelection> {
     await prefs.remove('user');
     Settings.reset = true;
     setState(() {
-      initialPage = true;
+      Settings.initialPage = true;
     });
     Future.delayed(const Duration(milliseconds: 500), () {
       widget.usersCtrCallback(0);
@@ -73,7 +62,7 @@ class _UserSelectionState extends State<UserSelection> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Visibility(
-                      visible: !initialPage,
+                      visible: !Settings.initialPage,
                       replacement: Row(
                         children: const [
                           Image(
@@ -145,8 +134,7 @@ class _UserSelectionState extends State<UserSelection> {
               child: CircularProgressIndicator(),
             ),
           ),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - 90,
+          child: Expanded(
             child: ListView.builder(
               itemCount: user!.length,
               itemBuilder: (context, index) {
@@ -215,8 +203,8 @@ class _UserSelectionState extends State<UserSelection> {
                             ],
                           ),
                           Visibility(
-                            visible:
-                                index + 1 == Settings.userId && !initialPage,
+                            visible: index + 1 == Settings.userId &&
+                                !Settings.initialPage,
                             child: Row(
                               children: [
                                 const SizedBox(

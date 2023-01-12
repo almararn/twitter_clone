@@ -13,93 +13,94 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int pageNr = 0;
-  bool initialPage = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPage();
+  homeCallBack() {
+    if (Settings.reset) {
+      setState(() {
+        Settings.screenIndex = 2;
+        Settings.initialPage = true;
+      });
+      Settings.reset = false;
+    } else {
+      setState(() {
+        Settings.screenIndex = 0;
+        Settings.initialPage = false;
+      });
+    }
   }
 
   Future<void> _loadPage() async {
     final prefs = await SharedPreferences.getInstance();
     if ((prefs.getInt('user')) == null) {
       setState(() {
-        pageNr = 2;
+        Settings.screenIndex = 2;
       });
     } else {
-      setState(() {
-        initialPage = false;
-        Settings.userId = prefs.getInt('user') ?? 0;
-      });
-    }
-  }
-
-  homeCallBack() {
-    if (Settings.reset) {
-      setState(() {
-        pageNr = 2;
-        initialPage = true;
-      });
-      Settings.reset = false;
-    } else {
-      setState(() {
-        pageNr = 0;
-        initialPage = false;
-      });
+      Settings.initialPage = false;
+      Settings.userId = prefs.getInt('user') ?? 0;
     }
   }
 
   @override
+  void initState() {
+    _loadPage();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Visibility(
-            visible: !initialPage && double.infinity > 600,
-            child: NavigationLeft(
-              leftWidgetCallback: () {
-                setState(() {
-                  pageNr = 2;
-                });
-              },
-            ),
-          ),
-          Visibility(
-            visible: !initialPage,
-            replacement: Container(
-              constraints: const BoxConstraints(maxWidth: 800),
-              width: double.infinity,
-              child: HomeWidget(
-                  pageNr: pageNr,
-                  homeWidgetCallback: () {
+    return Scaffold(body: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: !Settings.initialPage && constraints.maxWidth > 600,
+                child: NavigationLeft(
+                  leftWidgetCallback: () {
+                    setState(() {
+                      Settings.screenIndex = 2;
+                    });
+                  },
+                ),
+              ),
+              Visibility(
+                visible: !Settings.initialPage,
+                replacement: Flexible(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 800),
+                    width: constraints.maxWidth,
+                    child: MiddleWidget(homeWidgetCallback: () {
+                      homeCallBack();
+                    }),
+                  ),
+                ),
+                child: Expanded(
+                  flex: 10,
+                  child: MiddleWidget(homeWidgetCallback: () {
                     homeCallBack();
                   }),
-            ),
-            child: Expanded(
-              flex: 10,
-              child: HomeWidget(
-                  pageNr: pageNr,
-                  homeWidgetCallback: () {
-                    homeCallBack();
-                  }),
-            ),
+                ),
+              ),
+              Visibility(
+                replacement: SizedBox(
+                  width: constraints.maxWidth > 600
+                      ? Settings.initialPage
+                          ? 0
+                          : 50
+                      : 0,
+                ),
+                visible: !Settings.initialPage && constraints.maxWidth > 1000,
+                child: const Expanded(
+                  flex: 8,
+                  child: RightPanel(),
+                ),
+              ),
+            ],
           ),
-          Visibility(
-            replacement: const SizedBox(
-              width: double.infinity > 600 ? 50 : 0,
-            ),
-            visible: !initialPage && double.infinity > 1000,
-            child: const Expanded(
-              flex: 8,
-              child: RightPanel(),
-            ),
-          ),
-        ],
-      ),
-    );
+        );
+      },
+    ));
   }
 }

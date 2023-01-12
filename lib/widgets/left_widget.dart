@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:twitter_clone/models/users.dart';
 import 'package:twitter_clone/services/api_service.dart';
-import '../settings.dart';
+import 'package:twitter_clone/settings.dart';
 
 class NavigationLeft extends StatefulWidget {
   final VoidCallback leftWidgetCallback;
@@ -37,7 +37,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
 
   @override
   Widget build(BuildContext context) {
-    int width = MediaQuery.of(context).size.width as int;
+    int width = MediaQuery.of(context).size.width.toInt();
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Column(
@@ -160,7 +160,6 @@ class _NavigationLeftState extends State<NavigationLeft> {
           InkWell(
             hoverColor: Colors.grey.withOpacity(0.04),
             onTap: widget.leftWidgetCallback,
-            // hoverColor: const Color.fromARGB(10, 33, 149, 243),
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),

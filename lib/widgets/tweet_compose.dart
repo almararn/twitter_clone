@@ -24,7 +24,7 @@ class _TweetComposeState extends State<TweetCompose> {
       });
       await PostTweets().postTweets(tweets);
       _textInput.clear();
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         widget.voidCallback!();
         setState(() {
           isLoading = false;

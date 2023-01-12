@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:twitter_clone/settings.dart';
 import 'package:twitter_clone/widgets/tweet_compose.dart';
-import '../models/tweets.dart';
-import '../services/api_service.dart';
+import 'package:twitter_clone/models/tweets.dart';
+import 'package:twitter_clone/services/api_service.dart';
 
 class TweetsContainer extends StatefulWidget {
   final Function(int i) tweetsCtrCallback;
@@ -26,8 +26,8 @@ class _TweetsContainerState extends State<TweetsContainer> {
 
   @override
   void initState() {
-    super.initState();
     getData();
+    super.initState();
   }
 
   getData() async {

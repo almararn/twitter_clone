@@ -159,23 +159,31 @@ class _SingleTweetState extends State<SingleTweet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
-                            height: 25,
+                            height: 12,
                           ),
-                          GestureDetector(
+                          InkWell(
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                             onTap: widget.singleTweetCallback,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.arrow_back),
-                                Container(
-                                  color: Colors.transparent,
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                const Text(
-                                  'Tweet',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
+                            child: SizedBox(
+                              width: 110,
+                              height: 40,
+                              child: Row(
+                                children: const [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(Icons.arrow_back),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Tweet',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(
