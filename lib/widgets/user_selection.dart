@@ -45,11 +45,12 @@ class _UserSelectionState extends State<UserSelection> {
 
   @override
   Widget build(BuildContext context) {
+    int actualWidth = MediaQuery.of(context).size.width.toInt();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.width < 600 ? 15 : 40,
+          height: actualWidth < 600 ? 15 : 40,
         ),
         GestureDetector(
           onTap: (() => widget.usersCtrCallback(0)),
@@ -98,7 +99,7 @@ class _UserSelectionState extends State<UserSelection> {
                       ),
                     ),
                     Visibility(
-                      visible: MediaQuery.of(context).size.width > 600,
+                      visible: actualWidth > 600,
                       child: Text(
                         'Choose your account here ',
                         style: TextStyle(
@@ -110,7 +111,7 @@ class _UserSelectionState extends State<UserSelection> {
                   ],
                 ),
                 Visibility(
-                  visible: MediaQuery.of(context).size.width < 600,
+                  visible: actualWidth < 600,
                   child: Text(
                     'Choose your account here ',
                     style: TextStyle(
@@ -236,8 +237,8 @@ class _UserSelectionState extends State<UserSelection> {
       ],
     );
   }
-  // Alert Dialogs
 
+  // Alert Dialogs
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: const Text("Cancel"),

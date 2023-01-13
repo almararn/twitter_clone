@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: GoogleFonts.ubuntu().fontFamily,
+        fontFamily: GoogleFonts.heebo().fontFamily,
+        //   fontFamily: 'RobotoMono',
         brightness: Brightness.dark,
         primarySwatch: Colors.grey,
       ),

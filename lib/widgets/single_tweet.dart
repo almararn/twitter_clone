@@ -63,10 +63,11 @@ class _SingleTweetState extends State<SingleTweet> {
       'tweetId': singleTweet.tweetId,
       'userId': Settings.userId,
     };
-    setState(() {
-      isLoading = true;
-    });
+
     if (_textInput.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
       await PostReply().addReply(comment);
       _textInput.clear();
       getData();
@@ -113,15 +114,6 @@ class _SingleTweetState extends State<SingleTweet> {
 
   @override
   Widget build(BuildContext context) {
-    int totalWidth = MediaQuery.of(context).size.width.toInt();
-    double respWidth = totalWidth - 1000;
-    if (totalWidth < 600) {
-      respWidth = totalWidth - 250;
-    } else if (totalWidth < 1000) {
-      respWidth = totalWidth - 400;
-    } else if (totalWidth < 1200) {
-      respWidth = totalWidth - 810;
-    }
     return SingleChildScrollView(
       child: Visibility(
         visible: isLoaded,
@@ -136,19 +128,19 @@ class _SingleTweetState extends State<SingleTweet> {
             ? Column(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                         right: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                         bottom: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                       ),
                     ),
@@ -376,19 +368,19 @@ class _SingleTweetState extends State<SingleTweet> {
                     ),
                   ),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                         right: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                         bottom: BorderSide(
-                          color: Theme.of(context).primaryColorLight,
-                          width: 0.2,
+                          color: Colors.white10,
+                          width: 1,
                         ),
                       ),
                     ),
@@ -398,65 +390,66 @@ class _SingleTweetState extends State<SingleTweet> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.grey,
-                                    backgroundImage: AssetImage(
-                                        'assets/images/user${Settings.userId}.jpeg'),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  SizedBox(
-                                    width: respWidth,
-                                    child: TextField(
-                                      controller: _textInput,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      decoration: InputDecoration(
-                                        hintText: 'Tweet your reply',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColorLight,
-                                          fontSize: 20,
+                          child: IntrinsicHeight(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.grey,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/user${Settings.userId}.jpeg'),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Expanded(
+                                        child: TextField(
+                                          expands: true,
+                                          controller: _textInput,
+                                          keyboardType: TextInputType.multiline,
+                                          maxLines: null,
+                                          decoration: InputDecoration(
+                                            hintText: 'Tweet your reply',
+                                            hintStyle: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColorLight,
+                                              fontSize: 20,
+                                            ),
+                                            border: InputBorder.none,
+                                          ),
                                         ),
-                                        border: InputBorder.none,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    sendReply();
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: 85,
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(50)),
+                                      color: Colors.blue,
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'Reply',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      sendReply();
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      width: 100,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(50)),
-                                        color: Colors.blue,
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          'Reply',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Stack(
@@ -482,97 +475,107 @@ class _SingleTweetState extends State<SingleTweet> {
                             int img = singleTweet.comments![index].user!.userId
                                 as int;
                             return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme.of(context).primaryColorLight,
-                                  width: 0.2,
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Colors.white10,
+                                    width: 1,
+                                  ),
                                 ),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor: Colors.grey,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/user$img.jpeg'),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage: AssetImage(
+                                                'assets/images/user$img.jpeg'),
+                                          ),
+                                          const SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Text(singleTweet
-                                                    .comments![index]
-                                                    .user!
-                                                    .firstName
-                                                    .toString()),
-                                                const SizedBox(width: 3),
-                                                Text(singleTweet
-                                                    .comments![index]
-                                                    .user!
-                                                    .lastName
-                                                    .toString()),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  singleTweet.comments![index]
-                                                      .user!.handle
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColorLight,
+                                                Row(
+                                                  children: [
+                                                    Text(singleTweet
+                                                        .comments![index]
+                                                        .user!
+                                                        .firstName
+                                                        .toString()),
+                                                    const SizedBox(width: 3),
+                                                    Text(singleTweet
+                                                        .comments![index]
+                                                        .user!
+                                                        .lastName
+                                                        .toString()),
+                                                    const SizedBox(width: 5),
+                                                    Text(
+                                                      singleTweet
+                                                          .comments![index]
+                                                          .user!
+                                                          .handle
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Replying to ',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      singleTweet.user!.handle
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          color: Colors.blue),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                SizedBox(
+                                                  //   width: respWidth,
+                                                  child: Text(
+                                                    singleTweet
+                                                        .comments![index].text
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight,
+                                                    ),
                                                   ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 15,
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Replying to ',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColorLight,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  singleTweet.user!.handle
-                                                      .toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.blue),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            SizedBox(
-                                              width: respWidth,
-                                              child: Text(
-                                                singleTweet
-                                                    .comments![index].text
-                                                    .toString(),
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColorLight,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

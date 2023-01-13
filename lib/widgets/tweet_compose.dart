@@ -42,19 +42,19 @@ class _TweetComposeState extends State<TweetCompose> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           left: BorderSide(
-            color: Theme.of(context).primaryColorLight,
-            width: 0.2,
+            color: Colors.white10,
+            width: 1,
           ),
           right: BorderSide(
-            color: Theme.of(context).primaryColorLight,
-            width: 0.2,
+            color: Colors.white10,
+            width: 1,
           ),
           bottom: BorderSide(
-            color: Theme.of(context).primaryColorLight,
-            width: 0.2,
+            color: Colors.white10,
+            width: 1,
           ),
         ),
       ),
@@ -156,8 +156,8 @@ class _TweetComposeState extends State<TweetCompose> {
                                   GestureDetector(
                                     onTap: sendData,
                                     child: Container(
-                                      height: 40,
-                                      width: 100,
+                                      height: 35,
+                                      width: 85,
                                       decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(50)),

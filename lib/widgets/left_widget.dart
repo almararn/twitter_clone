@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:twitter_clone/models/users.dart';
 import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/settings.dart';
@@ -44,7 +45,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(left: 22, top: 20, bottom: 10),
+            padding: EdgeInsets.only(left: 16, top: 20, bottom: 10),
             child: Image(
               image: AssetImage('assets/images/twitter.png'),
               height: 30,
@@ -55,15 +56,15 @@ class _NavigationLeftState extends State<NavigationLeft> {
           Expanded(
             child: SingleChildScrollView(
               child: SizedBox(
-                height: 600,
+                height: 500,
                 child: NavigationRail(
                   minWidth: 60,
                   unselectedLabelTextStyle: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                     fontSize: 18,
                   ),
-                  selectedLabelTextStyle: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
+                  selectedLabelTextStyle: const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
                   selectedIconTheme: const IconThemeData(
@@ -126,7 +127,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
           Visibility(
             visible: width > 1200,
             replacement: Padding(
-              padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
+              padding: const EdgeInsets.only(left: 8, bottom: 10, top: 10),
               child: Container(
                 height: 45,
                 width: 45,
@@ -140,10 +141,10 @@ class _NavigationLeftState extends State<NavigationLeft> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 18, bottom: 10, top: 10),
+              padding: const EdgeInsets.only(left: 8, bottom: 10, top: 10),
               child: Container(
-                height: 45,
-                width: 180,
+                height: 40,
+                width: 160,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                   color: Colors.blue,
@@ -166,7 +167,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
             child: SizedBox(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 18, bottom: 15, right: 18, top: 15),
+                    left: 10, bottom: 15, right: 18, top: 15),
                 child: isLoaded
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

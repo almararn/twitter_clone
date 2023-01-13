@@ -43,7 +43,7 @@ class RightPanel extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 25,
+              height: 20,
             ),
             Container(
               decoration: BoxDecoration(
@@ -57,6 +57,9 @@ class RightPanel extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       'Trends for you',
                       style: TextStyle(
@@ -66,7 +69,7 @@ class RightPanel extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 22,
+                      height: 20,
                     ),
                     trending('Trending'),
                     textTwoLines('SORE LOOSER', '3,127 Tweets'),
@@ -103,9 +106,6 @@ class RightPanel extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(
-          height: 4,
-        ),
         Text(
           small,
           style: const TextStyle(
@@ -113,7 +113,7 @@ class RightPanel extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 20,
+          height: 12,
         )
       ],
     );

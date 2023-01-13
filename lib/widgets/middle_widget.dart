@@ -16,13 +16,13 @@ class MiddleWidget extends StatefulWidget {
 
 class _MiddleWidgetState extends State<MiddleWidget> {
   late List screens = [
-    TweetsContainer(tweetsCtrCallback: tweetsCallback),
-    SingleTweet(singleTweetCallback: singleTweetCallback),
-    UserSelection(usersCtrCallback: usersCallback),
+    TweetsContainer(tweetsCtrCallback: _tweetsCallback),
+    SingleTweet(singleTweetCallback: _singleTweetCallback),
+    UserSelection(usersCtrCallback: _usersCallback),
     Container()
   ];
 
-  usersCallback(int index) {
+  void _usersCallback(int index) {
     if (index == 0) {
       widget.homeWidgetCallback();
     } else {
@@ -32,7 +32,7 @@ class _MiddleWidgetState extends State<MiddleWidget> {
     }
   }
 
-  tweetsCallback(int value) {
+  void _tweetsCallback(int value) {
     if (value == 0) {
       setState(() {
         Settings.screenIndex = 2;
@@ -45,7 +45,7 @@ class _MiddleWidgetState extends State<MiddleWidget> {
     }
   }
 
-  singleTweetCallback() {
+  void _singleTweetCallback() {
     setState(() {
       Settings.screenIndex = 0;
     });

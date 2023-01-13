@@ -145,8 +145,8 @@ class _TweetsContainerState extends State<TweetsContainer> {
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context).primaryColorLight,
-                        width: 0.2,
+                        color: Colors.white10,
+                        width: 1,
                       ),
                     ),
                     child: Padding(
