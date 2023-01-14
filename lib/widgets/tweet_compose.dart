@@ -62,10 +62,7 @@ class _TweetComposeState extends State<TweetCompose> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(
-            height: 10,
-          ),
-          const SizedBox(
-            height: 30,
+            height: 40,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
@@ -76,9 +73,6 @@ class _TweetComposeState extends State<TweetCompose> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(
-            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -106,7 +100,7 @@ class _TweetComposeState extends State<TweetCompose> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               const SizedBox(
-                                height: 40,
+                                height: 60,
                               ),
                               TextField(
                                 controller: _textInput,

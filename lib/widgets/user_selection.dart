@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_clone/settings.dart';
 import '../models/users.dart';
 import '../services/api_service.dart';
+import 'alert_dialogs.dart';
 
 class UserSelection extends StatefulWidget {
   final Function(int i) usersCtrCallback;
@@ -217,7 +218,7 @@ class _UserSelectionState extends State<UserSelection> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    showAlertDialog(context);
+                                    showAlertDialog3(context, _clearPage);
                                   },
                                   icon: const Icon(Icons.more_vert),
                                   color: Theme.of(context).primaryColorLight,
@@ -235,40 +236,6 @@ class _UserSelectionState extends State<UserSelection> {
           ),
         ),
       ],
-    );
-  }
-
-  // Alert Dialogs
-  showAlertDialog(BuildContext context) {
-    Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      child: const Text("Logout", style: TextStyle(color: Colors.red)),
-      onPressed: () {
-        _clearPage();
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text("Logout Default User"),
-      content: const Text(
-          'Press "Logout" if you want to logout the default user and get the\nUser Selection Screen next time you run this application'),
-      actions: [
-        continueButton,
-        cancelButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }

@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
       title: 'Twitter Clone',
       theme: ThemeData(
         fontFamily: GoogleFonts.heebo().fontFamily,
-        //   fontFamily: 'RobotoMono',
         brightness: Brightness.dark,
         primarySwatch: Colors.grey,
       ),

@@ -3,6 +3,7 @@ import 'package:twitter_clone/services/api_service.dart';
 import 'package:twitter_clone/settings.dart';
 import 'package:twitter_clone/models/tweet.dart';
 import 'package:intl/intl.dart';
+import 'alert_dialogs.dart';
 
 class SingleTweet extends StatefulWidget {
   final VoidCallback singleTweetCallback;
@@ -14,8 +15,8 @@ class SingleTweet extends StatefulWidget {
 
 class _SingleTweetState extends State<SingleTweet> {
   final _textInput = TextEditingController();
-  bool isLoading = false;
   late Tweet singleTweet;
+  bool isLoading = false;
   bool isLoaded = false;
   int userImg = 0;
 
@@ -128,22 +129,7 @@ class _SingleTweetState extends State<SingleTweet> {
             ? Column(
                 children: [
                   Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                        right: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                        bottom: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                      ),
-                    ),
+                    decoration: Settings.boxDecoration,
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
@@ -213,7 +199,6 @@ class _SingleTweetState extends State<SingleTweet> {
                                       ),
                                     ],
                                   ),
-                                  //       const SizedBox(height: 5),
                                   Text(
                                     singleTweet.user!.handle.toString(),
                                     style: TextStyle(
@@ -225,18 +210,13 @@ class _SingleTweetState extends State<SingleTweet> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
                           Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: SizedBox(
-                              child: Text(
-                                singleTweet.text.toString(),
-                                style: const TextStyle(fontSize: 22),
-                              ),
+                            padding: const EdgeInsets.only(
+                                right: 10.0, top: 30.0, bottom: 30.0),
+                            child: Text(
+                              singleTweet.text.toString(),
+                              style: const TextStyle(fontSize: 22),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 40,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -267,9 +247,6 @@ class _SingleTweetState extends State<SingleTweet> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
                           IntrinsicHeight(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +262,7 @@ class _SingleTweetState extends State<SingleTweet> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 8),
                                 Expanded(
                                   child: Wrap(
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -322,9 +299,9 @@ class _SingleTweetState extends State<SingleTweet> {
                               ],
                             ),
                           ),
-                          Divider(
-                            color: Theme.of(context).primaryColorLight,
-                            thickness: 0.2,
+                          const Divider(
+                            color: Colors.white10,
+                            thickness: 1,
                           ),
                           const SizedBox(
                             height: 20,
@@ -366,7 +343,8 @@ class _SingleTweetState extends State<SingleTweet> {
                                   onPressed: () {
                                     allowDelete()
                                         ? showAlertDialog2(context)
-                                        : showAlertDialog(context);
+                                        : showAlertDialog1(
+                                            context, deleteTweet);
                                   },
                                 ),
                               ],
@@ -377,22 +355,7 @@ class _SingleTweetState extends State<SingleTweet> {
                     ),
                   ),
                   Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                        right: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                        bottom: BorderSide(
-                          color: Colors.white10,
-                          width: 1,
-                        ),
-                      ),
-                    ),
+                    decoration: Settings.boxDecoration,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -551,7 +514,6 @@ class _SingleTweetState extends State<SingleTweet> {
                                                     ),
                                                   ],
                                                 ),
-                                                //     const SizedBox(height: 3),
                                                 Row(
                                                   children: [
                                                     Text(
@@ -606,66 +568,6 @@ class _SingleTweetState extends State<SingleTweet> {
               )
             : Container(),
       ),
-    );
-  }
-
-// Alert Dialogs
-
-  showAlertDialog(BuildContext context) {
-    Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      child: const Text("Delete", style: TextStyle(color: Colors.red)),
-      onPressed: () {
-        deleteTweet();
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text("Delete Tweet"),
-      content: const Text(
-          "Are you sure you want to delete this tweet?\nThis action cannot be undone."),
-      actions: [
-        continueButton,
-        cancelButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  showAlertDialog2(BuildContext context) {
-    Widget cancelButton = TextButton(
-      child: const Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text("Delete Tweet"),
-      content:
-          const Text("You can't delete this tweet because it's not yours."),
-      actions: [
-        cancelButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }
