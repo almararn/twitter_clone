@@ -168,9 +168,11 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.stretch,
                                     children: [
-                                      Row(
+                                      Wrap(
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
                                         children: [
                                           Text(tweets![index]
                                               .user!
@@ -181,7 +183,14 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                               .user!
                                               .lastName!
                                               .toString()),
-                                          const SizedBox(width: 5),
+                                          const SizedBox(width: 3),
+                                          const Image(
+                                            height: 15,
+                                            width: 15,
+                                            image: AssetImage(
+                                                'assets/images/verified.gif'),
+                                          ),
+                                          const SizedBox(width: 3),
                                           Text(
                                             tweets![index]
                                                 .user!
@@ -223,100 +232,104 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Wrap(
-                                            spacing: 10,
-                                            children: [
-                                              Icon(
-                                                Icons.comment,
-                                                color: Theme.of(context)
-                                                    .primaryColorLight,
-                                                size: 20,
-                                              ),
-                                              Text(
-                                                tweets![index]
-                                                    .comments!
-                                                    .length
-                                                    .toString(),
-                                                style: TextStyle(
+                                      Expanded(
+                                        child: Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          alignment: WrapAlignment.spaceBetween,
+                                          children: [
+                                            Wrap(
+                                              spacing: 10,
+                                              children: [
+                                                Icon(
+                                                  Icons.comment,
                                                   color: Theme.of(context)
                                                       .primaryColorLight,
+                                                  size: 20,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Wrap(
-                                            spacing: 10,
-                                            children: [
-                                              Icon(
-                                                Icons.repeat,
-                                                color: Theme.of(context)
-                                                    .primaryColorLight,
-                                                size: 20,
-                                              ),
-                                              Text(
-                                                '0',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColorLight,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => isLoading
-                                                    ? null
-                                                    : pressedLike(index),
-                                                icon: Icon(
-                                                  Icons.favorite,
-                                                  size: buttonId == index
-                                                      ? isLoading
-                                                          ? 20
-                                                          : 24
-                                                      : 24,
-                                                ),
-                                                color: isLiked(index)
-                                                    ? Colors.red
-                                                    : Theme.of(context)
+                                                Text(
+                                                  tweets![index]
+                                                      .comments!
+                                                      .length
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
                                                         .primaryColorLight,
-                                              ),
-                                              Text(
-                                                tweets![index]
-                                                    .likes!
-                                                    .length
-                                                    .toString(),
-                                                style: TextStyle(
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Wrap(
+                                              spacing: 10,
+                                              children: [
+                                                Icon(
+                                                  Icons.repeat,
                                                   color: Theme.of(context)
                                                       .primaryColorLight,
-                                                  height: 0.7,
+                                                  size: 20,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Wrap(
-                                            spacing: 10,
-                                            children: [
-                                              Icon(
-                                                Icons.share,
-                                                color: Theme.of(context)
-                                                    .primaryColorLight,
-                                                size: 20,
-                                              ),
-                                              Text(
-                                                '0',
-                                                style: TextStyle(
+                                                Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Wrap(
+                                              crossAxisAlignment:
+                                                  WrapCrossAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () => isLoading
+                                                      ? null
+                                                      : pressedLike(index),
+                                                  icon: Icon(
+                                                    Icons.favorite,
+                                                    size: buttonId == index
+                                                        ? isLoading
+                                                            ? 18
+                                                            : 22
+                                                        : 22,
+                                                  ),
+                                                  color: isLiked(index)
+                                                      ? Colors.red
+                                                      : Theme.of(context)
+                                                          .primaryColorLight,
+                                                ),
+                                                Text(
+                                                  tweets![index]
+                                                      .likes!
+                                                      .length
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Wrap(
+                                              spacing: 10,
+                                              children: [
+                                                Icon(
+                                                  Icons.share,
                                                   color: Theme.of(context)
                                                       .primaryColorLight,
+                                                  size: 20,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

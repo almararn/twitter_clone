@@ -81,7 +81,7 @@ class _TweetComposeState extends State<TweetCompose> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: IntrinsicHeight(
               child: Row(
                 children: [
@@ -103,10 +103,10 @@ class _TweetComposeState extends State<TweetCompose> {
                         const SizedBox(width: 15),
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               const SizedBox(
-                                height: 20,
+                                height: 40,
                               ),
                               TextField(
                                 controller: _textInput,
@@ -121,54 +121,63 @@ class _TweetComposeState extends State<TweetCompose> {
                                   border: InputBorder.none,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                alignment: WrapAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.image_outlined,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                      const SizedBox(width: 10),
-                                      Icon(Icons.gif,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                      const SizedBox(width: 10),
-                                      Icon(Icons.bar_chart,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                      const SizedBox(width: 10),
-                                      Icon(Icons.poll_outlined,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                      const SizedBox(width: 10),
-                                      Icon(Icons.emoji_emotions_outlined,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                      const SizedBox(width: 10),
-                                      Icon(Icons.location_on_outlined,
-                                          color: Theme.of(context)
-                                              .primaryColorLight),
-                                    ],
-                                  ),
-                                  GestureDetector(
-                                    onTap: sendData,
-                                    child: Container(
-                                      height: 35,
-                                      width: 85,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(50)),
-                                        color: Colors.blue,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 0.0),
+                                    child: SizedBox(
+                                      width: 185,
+                                      child: Wrap(
+                                        children: [
+                                          Icon(Icons.image_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.gif,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.bar_chart,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.poll_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.emoji_emotions_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.location_on_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                        ],
                                       ),
-                                      child: const Center(
-                                        child: Text(
-                                          'Tweet',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: GestureDetector(
+                                      onTap: sendData,
+                                      child: Container(
+                                        height: 35,
+                                        width: 85,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)),
+                                          color: Colors.blue,
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'Tweet',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -188,12 +197,12 @@ class _TweetComposeState extends State<TweetCompose> {
           Stack(
             children: [
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Column(
                 children: [
                   const SizedBox(
-                    height: 18,
+                    height: 8,
                   ),
                   Visibility(
                     visible: isLoading,

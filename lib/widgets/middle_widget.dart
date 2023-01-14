@@ -77,10 +77,13 @@ class _MiddleWidgetState extends State<MiddleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-        itemCount: 1,
-        itemBuilder: (context, position) {
-          return screens[Settings.screenIndex];
-        });
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 1.0),
+      child: PageView.builder(
+          itemCount: 1,
+          itemBuilder: (context, position) {
+            return screens[Settings.screenIndex];
+          }),
+    );
   }
 }

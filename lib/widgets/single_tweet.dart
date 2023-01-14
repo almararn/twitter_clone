@@ -151,7 +151,7 @@ class _SingleTweetState extends State<SingleTweet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
-                            height: 12,
+                            height: 15,
                           ),
                           InkWell(
                             customBorder: RoundedRectangleBorder(
@@ -195,16 +195,25 @@ class _SingleTweetState extends State<SingleTweet> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Text(singleTweet.user!.firstName
                                           .toString()),
                                       const SizedBox(width: 3),
                                       Text(singleTweet.user!.lastName
                                           .toString()),
+                                      const SizedBox(width: 3),
+                                      const Image(
+                                        height: 15,
+                                        width: 15,
+                                        image: AssetImage(
+                                            'assets/images/verified.gif'),
+                                      ),
                                     ],
                                   ),
-                                  const SizedBox(height: 5),
+                                  //       const SizedBox(height: 5),
                                   Text(
                                     singleTweet.user!.handle.toString(),
                                     style: TextStyle(
@@ -506,7 +515,9 @@ class _SingleTweetState extends State<SingleTweet> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Row(
+                                                Wrap(
+                                                  crossAxisAlignment:
+                                                      WrapCrossAlignment.center,
                                                   children: [
                                                     Text(singleTweet
                                                         .comments![index]
@@ -519,7 +530,14 @@ class _SingleTweetState extends State<SingleTweet> {
                                                         .user!
                                                         .lastName
                                                         .toString()),
-                                                    const SizedBox(width: 5),
+                                                    const SizedBox(width: 3),
+                                                    const Image(
+                                                      height: 15,
+                                                      width: 15,
+                                                      image: AssetImage(
+                                                          'assets/images/verified.gif'),
+                                                    ),
+                                                    const SizedBox(width: 3),
                                                     Text(
                                                       singleTweet
                                                           .comments![index]
@@ -533,9 +551,7 @@ class _SingleTweetState extends State<SingleTweet> {
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
+                                                //     const SizedBox(height: 3),
                                                 Row(
                                                   children: [
                                                     Text(
