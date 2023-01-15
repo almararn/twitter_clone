@@ -1,20 +1,14 @@
-# twitter_clone
+# Lokaverkefni 3.önn
 
-A new Flutter project.
+![ezcv logo](https://raw.githubusercontent.com/almararn/twitter_clone/master/assets/images/logo.jpg?token=GHSAT0AAAAAAB32O2THWG5YIP3LA3EPCCXUY6ELOQQ)
 
-## Getting Started
+Twitter eftirlíking, skrifuð sem Flutter vefsíða og notast við MSSQL gagnagrunn.
 
-This project is a starting point for a Flutter application.
+## Upplýsingar
 
-A few resources to get you started if this is your first Flutter project:
+Þegar forritið hefur verið ræst þá leitar það af gagnagrunni á 'localhost' og notast við port 5279 - http.<br />
+Gagnagrunninn er að finna hér: <https://github.com/almararn/TwitterCloneAPI.git>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
-flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0
-http://192.168.1.178:8080/#/
+Einnig er hægt að keyra forritið beint af vef á tvenna vegu:<br />
+<http://twitterclone.hrollur.com> sem er tilbúið til notkunar og notast við eigin gagnagrunn í skýi, eða<br />
+<http://tc-local.hrollur.com> sem leitar af gagnagrunni á 'localhost' - port 5279 - http
