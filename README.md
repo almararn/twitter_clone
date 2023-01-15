@@ -1,6 +1,6 @@
 # Lokaverkefni 3.önn
 
-![ezcv logo](https://raw.githubusercontent.com/almararn/twitter_clone/master/assets/images/logo.jpg?token=GHSAT0AAAAAAB32O2THWG5YIP3LA3EPCCXUY6ELOQQ)
+![ezcv logo](https://hrollur.com/img/logo.jpg)
 
 Twitter eftirlíking, skrifuð sem Flutter vefsíða og notast við MSSQL gagnagrunn.
 
