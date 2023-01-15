@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/services/api_service.dart';
-import 'package:twitter_clone/settings.dart';
-import 'package:twitter_clone/models/tweet.dart';
 import 'package:intl/intl.dart';
-import 'alert_dialogs.dart';
+import '../services/api_service.dart';
+import '../widgets/alert_dialogs.dart';
+import '../models/tweet.dart';
+import '../settings.dart';
 
 class SingleTweet extends StatefulWidget {
   final VoidCallback singleTweetCallback;
@@ -14,7 +14,7 @@ class SingleTweet extends StatefulWidget {
 }
 
 class _SingleTweetState extends State<SingleTweet> {
-  final _textInput = TextEditingController();
+  final _textInput2 = TextEditingController();
   late Tweet singleTweet;
   bool isLoading = false;
   bool isLoaded = false;
@@ -34,7 +34,7 @@ class _SingleTweetState extends State<SingleTweet> {
   getData() async {
     singleTweet = await FetchSingleTweet().getSingleTweet(Settings.tweetNumber);
     userImg = singleTweet.userId as int;
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         isLoaded = true;
         isLoading = false;
@@ -60,17 +60,17 @@ class _SingleTweetState extends State<SingleTweet> {
 
   sendReply() async {
     var comment = {
-      'text': _textInput.text,
+      'text': _textInput2.text,
       'tweetId': singleTweet.tweetId,
       'userId': Settings.userId,
     };
 
-    if (_textInput.text.isNotEmpty) {
+    if (_textInput2.text.isNotEmpty) {
       setState(() {
         isLoading = true;
       });
       await PostReply().addReply(comment);
-      _textInput.clear();
+      _textInput2.clear();
       getData();
     }
   }
@@ -113,6 +113,13 @@ class _SingleTweetState extends State<SingleTweet> {
     return false;
   }
 
+  @override
+  void dispose() {
+    _textInput2.dispose();
+    super.dispose();
+  }
+
+  bool keyboard = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -380,8 +387,9 @@ class _SingleTweetState extends State<SingleTweet> {
                                       const SizedBox(width: 15),
                                       Expanded(
                                         child: TextField(
-                                          expands: true,
-                                          controller: _textInput,
+                                          scrollPadding:
+                                              const EdgeInsets.only(bottom: 80),
+                                          controller: _textInput2,
                                           keyboardType: TextInputType.multiline,
                                           maxLines: null,
                                           decoration: InputDecoration(
@@ -401,6 +409,7 @@ class _SingleTweetState extends State<SingleTweet> {
                                 GestureDetector(
                                   onTap: () {
                                     sendReply();
+                                    FocusScope.of(context).unfocus();
                                   },
                                   child: Container(
                                     height: 35,
@@ -535,15 +544,10 @@ class _SingleTweetState extends State<SingleTweet> {
                                                   height: 8,
                                                 ),
                                                 SizedBox(
-                                                  //   width: respWidth,
                                                   child: Text(
                                                     singleTweet
                                                         .comments![index].text
                                                         .toString(),
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColorLight,
-                                                    ),
                                                   ),
                                                 ),
                                                 const SizedBox(

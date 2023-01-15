@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:twitter_clone/settings.dart';
-import 'package:twitter_clone/widgets/tweet_compose.dart';
-import 'package:twitter_clone/models/tweets.dart';
-import 'package:twitter_clone/services/api_service.dart';
+import '../widgets/tweet_compose.dart';
+import '../services/api_service.dart';
+import '../models/tweets.dart';
+import '../settings.dart';
 
 class TweetsContainer extends StatefulWidget {
   final Function(int i) tweetsCtrCallback;
@@ -224,10 +224,6 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                       ),
                                       Text(
                                         tweets![index].text.toString(),
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColorLight,
-                                        ),
                                       ),
                                       const SizedBox(
                                         height: 15,

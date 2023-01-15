@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:twitter_clone/settings.dart';
-import '../models/users.dart';
+import '../widgets/alert_dialogs.dart';
 import '../services/api_service.dart';
-import 'alert_dialogs.dart';
+import '../models/users.dart';
+import '../settings.dart';
 
 class UserSelection extends StatefulWidget {
   final Function(int i) usersCtrCallback;

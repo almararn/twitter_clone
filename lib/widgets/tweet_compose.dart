@@ -119,44 +119,44 @@ class _TweetComposeState extends State<TweetCompose> {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 alignment: WrapAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 0.0),
-                                    child: SizedBox(
-                                      width: 185,
-                                      child: Wrap(
-                                        children: [
-                                          Icon(Icons.image_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.gif,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.bar_chart,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.poll_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.emoji_emotions_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.location_on_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColorLight),
-                                        ],
-                                      ),
+                                  SizedBox(
+                                    width: 185,
+                                    child: Wrap(
+                                      children: [
+                                        Icon(Icons.image_outlined,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.gif,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.bar_chart,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.poll_outlined,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.emoji_emotions_outlined,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.location_on_outlined,
+                                            color: Theme.of(context)
+                                                .primaryColorLight),
+                                      ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10.0),
                                     child: GestureDetector(
-                                      onTap: sendData,
+                                      onTap: () {
+                                        sendData();
+                                        FocusScope.of(context).unfocus();
+                                      },
                                       child: Container(
                                         height: 35,
                                         width: 85,

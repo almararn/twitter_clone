@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:twitter_clone/models/users.dart';
-import 'package:twitter_clone/services/api_service.dart';
-import 'package:twitter_clone/settings.dart';
+import '../models/users.dart';
+import '../services/api_service.dart';
+import '../settings.dart';
 
 class NavigationLeft extends StatefulWidget {
   final VoidCallback leftWidgetCallback;
@@ -29,7 +28,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
 
   getData() async {
     user = await FetchUsers().getAllUsers();
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         isLoaded = true;
       });
@@ -45,7 +44,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(left: 16, top: 20, bottom: 10),
+            padding: EdgeInsets.only(left: 16, top: 20, bottom: 10, right: 25),
             child: Image(
               image: AssetImage('assets/images/twitter.png'),
               height: 30,
@@ -167,7 +166,7 @@ class _NavigationLeftState extends State<NavigationLeft> {
             child: SizedBox(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 10, bottom: 15, right: 18, top: 15),
+                    left: 10, bottom: 15, right: 5, top: 15),
                 child: isLoaded
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

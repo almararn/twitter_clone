@@ -59,13 +59,13 @@ showAlertDialog2(BuildContext context) {
 
 showAlertDialog3(BuildContext context, VoidCallback clearPage) {
   Widget cancelButton = TextButton(
-    child: const Text("Cancel"),
+    child: const Text('Cancel'),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
   Widget continueButton = TextButton(
-    child: const Text("Logout", style: TextStyle(color: Colors.red)),
+    child: const Text('Logout', style: TextStyle(color: Colors.red)),
     onPressed: () {
       clearPage();
       Navigator.of(context).pop();
@@ -73,7 +73,7 @@ showAlertDialog3(BuildContext context, VoidCallback clearPage) {
   );
 
   AlertDialog alert = AlertDialog(
-    title: const Text("Logout Default User"),
+    title: const Text('Logout Default User'),
     content: const Text(
         'Press "Logout" if you want to logout the default user and get the\nUser Selection Screen next time you run this application'),
     actions: [

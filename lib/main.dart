@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:twitter_clone/screens/home.dart';
+import '../screens/home.dart';
 
 void main() {
   runApp(const MyApp());

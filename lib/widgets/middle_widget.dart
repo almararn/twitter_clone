@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:twitter_clone/widgets/single_tweet.dart';
-import 'package:twitter_clone/widgets/tweets_container.dart';
-import 'package:twitter_clone/widgets/user_selection.dart';
-import 'package:twitter_clone/settings.dart';
+import '../widgets/single_tweet.dart';
+import '../widgets/tweets_container.dart';
+import '../widgets/user_selection.dart';
+import '../settings.dart';
 
 class MiddleWidget extends StatefulWidget {
   final VoidCallback homeWidgetCallback;
