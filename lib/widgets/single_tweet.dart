@@ -119,7 +119,6 @@ class _SingleTweetState extends State<SingleTweet> {
     super.dispose();
   }
 
-  bool keyboard = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -197,7 +196,12 @@ class _SingleTweetState extends State<SingleTweet> {
                                       const SizedBox(width: 3),
                                       Text(singleTweet.user!.lastName
                                           .toString()),
-                                      const SizedBox(width: 3),
+                                      Visibility(
+                                        visible: singleTweet.user!.lastName
+                                                .toString() !=
+                                            "",
+                                        child: const SizedBox(width: 3),
+                                      ),
                                       const Image(
                                         height: 15,
                                         width: 15,
@@ -502,7 +506,16 @@ class _SingleTweetState extends State<SingleTweet> {
                                                         .user!
                                                         .lastName
                                                         .toString()),
-                                                    const SizedBox(width: 3),
+                                                    Visibility(
+                                                      visible: singleTweet
+                                                              .comments![index]
+                                                              .user!
+                                                              .lastName
+                                                              .toString() !=
+                                                          "",
+                                                      child: const SizedBox(
+                                                          width: 3),
+                                                    ),
                                                     const Image(
                                                       height: 15,
                                                       width: 15,

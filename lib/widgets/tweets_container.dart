@@ -183,7 +183,13 @@ class _TweetsContainerState extends State<TweetsContainer> {
                                               .user!
                                               .lastName!
                                               .toString()),
-                                          const SizedBox(width: 3),
+                                          Visibility(
+                                            visible: tweets![index]
+                                                    .user!
+                                                    .lastName! !=
+                                                "",
+                                            child: const SizedBox(width: 3),
+                                          ),
                                           const Image(
                                             height: 15,
                                             width: 15,

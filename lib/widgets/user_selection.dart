@@ -53,19 +53,19 @@ class _UserSelectionState extends State<UserSelection> {
         SizedBox(
           height: actualWidth < 600 ? 15 : 40,
         ),
-        GestureDetector(
-          onTap: (() => widget.usersCtrCallback(0)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Visibility(
-                      visible: !Settings.initialPage,
-                      replacement: Row(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: !Settings.initialPage,
+                    replacement: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
                         children: const [
                           Image(
                             image: AssetImage('assets/images/twitter.png'),
@@ -84,49 +84,59 @@ class _UserSelectionState extends State<UserSelection> {
                           ),
                         ],
                       ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.arrow_back),
-                          Container(
-                            color: Colors.transparent,
-                            width: 20,
-                            height: 20,
-                          ),
-                          const Text(
-                            'Go back',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
                     ),
-                    Visibility(
-                      visible: actualWidth > 600,
-                      child: Text(
-                        'Choose your account here ',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).primaryColorLight,
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      onTap: (() => widget.usersCtrCallback(0)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 15.0, top: 5.0, bottom: 5.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.arrow_back),
+                            Container(
+                              color: Colors.transparent,
+                              width: 20,
+                              height: 20,
+                            ),
+                            const Text(
+                              'Go back',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-                Visibility(
-                  visible: actualWidth < 600,
-                  child: Text(
-                    'Choose your account here ',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorLight,
                     ),
                   ),
-                )
-              ],
-            ),
+                  Visibility(
+                    visible: actualWidth > 600,
+                    child: Text(
+                      'Choose your account here ',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorLight,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Visibility(
+                visible: actualWidth < 600,
+                child: Text(
+                  'Choose your account here ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).primaryColorLight,
+                  ),
+                ),
+              )
+            ],
           ),
         ),
         const SizedBox(
-          height: 25,
+          height: 2,
         ),
         Visibility(
           visible: isLoaded,
